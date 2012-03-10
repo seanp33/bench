@@ -1,0 +1,5 @@
+content	bench              chrome/content/
+skin        bench  classic/1.0 chrome/skin/
+locale      bench en-US       chrome/locale/en-US/
+
+overlay chrome://browser/content/browser.xul  chrome://bench/content/overlay.xul

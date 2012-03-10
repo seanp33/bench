@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project name="Bench" basedir="." default="stage">
+
+  <property file="${basedir}/build.properties" />
+  <property environment="env"/>
+
+  <!--Clean-->
+  <target name="clean">
+    <delete dir="${staging.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+  
+  <!--unproxy-->
+  <target name="unproxy">
+    <delete file="${mozdev.profile.dir}/extensions/${app.id}" />
+  </target>
+  
+  <!--Test-->
+  <target name="test" depends="proxy">
+    <echo message="launching mozmill"/>
+    <exec dir="${basedir}" executable="mozmill">
+      <arg line="--show-errors --show-all --test=${test.dir} --profile=${mozdev.profile.dir}" />
+    </exec>
+  </target>
+
+  <!--Stage-->
+  <target name="stage" depends="clean" >
+    <echo message="preparing staging area"/>
+    <mkdir dir="${staging.dir}" />        
+
+    <echo message="copying source to staging area"/>
+
+    <copy todir="${staging.dir}">
+      <fileset dir="${src.dir}"/>
+    </copy>
+    
+    <echo message="staging complete" />
+  </target>
+
+  <!--Gen Proxy-->
+  <target name="proxy" depends="stage">
+    <echo message="preparing chrome manifest for proxy" />
+    <delete file="${staging.dir}/${xpi.chrome.manifest}" />
+    <move file="${staging.dir}/${proxy.chrome.manifest}" tofile="${staging.dir}/chrome.manifest" />
+
+    <echo message="generating proxy file ${mozdev.profile.dir}/extensions/${app.id}" />
+    <echo file="${mozdev.profile.dir}/extensions/${app.id}">${staging.dir}</echo> 
+    <echo message="proxy file ${app.id} generated" />    
+  </target>
+
+  <!--Gen Jar-->
+  <target name="genJar" depends="stage">    
+    <echo message="preparing chrome manifest for xpi" />
+    <delete file="${staging.dir}/${proxy.chrome.manifest}" />
+    <move file="${staging.dir}/${xpi.chrome.manifest}" tofile="${staging.dir}/chrome.manifest" />
+
+   <echo message="preparing ${staging.chrome.dir}/${artifact.name}.jar" />
+   <zip basedir="${chrome.dir}" destfile="${staging.chrome.dir}/${artifact.name}.jar"/>
+
+   <echo message="jar created. cleaning up chrome directories" />
+   <delete dir="${staging.content.dir}" />
+   <delete dir="${staging.locale.dir}" />
+   <delete dir="${staging.skin.dir}" />
+   <delete dir="${staging.extras.dir}" />
+  </target>
+
+  <!--XPI-->
+  <target name="xpi" depends="genJar">
+    <mkdir dir="${dist.dir}" />    
+    <echo message="preparing ${artifact.name}.xpi" />
+    <zip basedir="${staging.dir}" destfile="${dist.dir}/${artifact.name}.xpi"/>
+    <echo message="${artifact.name}.xpi created successfully" />
+  </target>
+  
+</project>

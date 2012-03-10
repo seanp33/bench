@@ -1,0 +1,22 @@
+.welcomeMsg{
+    font-size:9pt;
+    font-weight:bold;
+    margin:0px;
+    padding:3px;
+}
+
+#_bMainPanelSplitter{
+    border-top:1px solid #c0c0c0;
+}
+
+#_bMainPanel{
+    height:200px;
+}
+
+#_bTestProgress{
+    
+}
+
+#_bRunTestBox{
+    
+}

@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://bench/skin/overlay.css" ?>
+
+<!DOCTYPE overlay SYSTEM  "chrome://bench/locale/bench.dtd">
+
+<overlay id="benchOverlay"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="strings_bench" src="chrome://bench/locale/bench.properties"/>
+    </stringbundleset>
+
+    <script type="application/x-javascript">
+
+        var djConfig = {
+            parseOnLoad:false,
+            baseUrl:"chrome://bench/content/lib/dojo/"
+        }
+    </script>
+    <script type="application/x-javascript" src="chrome://bench/content/lib/dojo/dojo.js"/>
+    <script type="application/x-javascript" src="chrome://bench/content/overlay.js"/>
+
+    <script type="application/x-javascript">
+        function runTest() {
+            LOG("running");
+            var store = new Bench.Store("bench-test.sqlite");
+            store.open();
+            store.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT, src TEXT, src_port INTEGER, dst TEXT, dst_port INTEGER)");
+            var count = prompt("Specify number of records", 1000);
+
+            $('_bTestProgress').setAttribute('hidden', false);
+
+            if (count != null) {
+                var self = this;
+                var sim = new Bench.Sim();
+                sim.fill(store, count, {
+
+                    handleCompletion:function(reason) {
+                        let msg;
+                        switch (reason) {
+                            case 0 :
+                                msg = 'REASON_FINISHED';
+                                break;
+                            case 1 :
+                                msg = 'REASON_CANCELED';
+                                break;
+                            case 2   :
+                                msg = 'REASON_ERROR';
+                                break;
+                        }
+
+                        LOG('handleCompletion: ' + msg);
+
+                        if (reason == 0) {
+                            self.selectSome(store);
+                            $('treeData').builder.rebuild();
+                        }
+                    },
+
+                    handleError:function(error) {
+                        LOG(error.result + " : " + error.message);
+                    },
+
+                    handleResult:function(resultSet) {
+                        LOG('handleResult');
+                    }
+                })
+            }
+
+        }
+
+        function selectSome(store) {
+            //var q = Bench.Store.Util.assembleSelect('raw_data', {dst_port:675});
+            var q = 'select * from raw_data limit 200000';
+            LOG(q);
+            store.open();
+            LOG('Start: ' + new Date());
+            store.sql(q, {
+                handleError:function(error) {
+                    LOG(error.result + " : " + error.message);
+                },
+
+                handleResult: function(aResultSet) {
+                    for (let row = aResultSet.getNextRow();
+                         row;
+                         row = aResultSet.getNextRow()) {
+
+                        let src = row.getResultByName('src');
+                        let src_port = row.getResultByName('src_port');
+                        let dst = row.getResultByName('dst');
+                        let dst_port = row.getResultByName('dst_port');
+                    }
+                },
+
+                handleCompletion:function(reason) {
+                    LOG('Finish: ' + new Date());
+                    store.close(true);
+                    $('_bTestProgress').setAttribute('hidden', true);
+                }
+            });
+        }
+    </script>
+
+    <commandset id="mainCommandSet">
+        <command id="cmd_runTests" oncommand="runTest();"/>
+    </commandset>
+
+    <!--
+    // TODO: assign desired keycode
+    <keyset id="mainKeyset">
+      <key id="key_toggleBench" keycode="VK_F12" command="cmd_runTests"/>
+    </keyset>
+    -->
+
+    <menupopup id="menu_ToolsPopup">
+        <menuitem id="menu_bench" label="&bench.Bench;" command="cmd_runTests"/>
+    </menupopup>
+
+    <vbox id="appcontent">
+        <splitter id="_bMainPanelSplitter" collapsed="false"/>
+        <tabbox id="_bTabbox" selectedIndex="0">
+            <tabs>
+                <tab label="Data"/>
+                <tab label="Simulation"/>
+            </tabs>
+            <tabpanels>
+                <tabpanel>
+                    <tree flex="1" rows="15">
+                        <treecols>
+                            <treecol label="ID" sort="?id" flex="1"/>
+                            <treecol label="Src" sort="?src" flex="1"/>
+                            <treecol label="Src Port" sort="?src_port" flex="1"/>
+                            <treecol label="Dst" sort="?dst" flex="1"/>
+                            <treecol label="Dst Port" sort="?dst_port" flex="1"/>
+                        </treecols>
+                        <treechildren id='treeData' datasources='profile:bench-test.sqlite' ref='*' querytype='storage'>
+                            <template>
+                                <query>
+                                    select id, src, src_port, dst, dst_port from raw_data
+                                </query>
+                                <action>
+                                    <treeitem uri="?">
+                                        <treerow>
+                                            <treecell label="?id"/>
+                                            <treecell label="?src"/>
+                                            <treecell label="?src_port"/>
+                                            <treecell label="?dst"/>
+                                            <treecell label="?dst_port"/>
+                                        </treerow>
+                                    </treeitem>
+                                </action>
+                            </template>
+                        </treechildren>
+                    </tree>
+                </tabpanel>
+                <tabpanel>
+                    <vbox id="_bMainPanel" collapsed="false" flex="1">
+                        <label class='welcomeMsg' value="&bench.Welcome;"/>
+                        <groupbox>
+                            <caption label="&bench.Simulation;"/>
+                            <hbox id="_bRunTestBox" pack='start' align='center'>
+                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd_runTests'/>
+                                <progressmeter id="_bTestProgress" mode="undetermined" hidden='true'/>
+                            </hbox>
+                        </groupbox>
+                    </vbox>
+                </tabpanel>
+            </tabpanels>
+        </tabbox>
+    </vbox>
+</overlay>

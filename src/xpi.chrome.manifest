@@ -1,0 +1,5 @@
+content   bench              jar:chrome/bench.jar!/content/
+skin        bench  classic/1.0 chrome/skin/
+locale      bench en-US       locale/en-US/
+
+overlay chrome://browser/content/browser.xul  chrome://bench/content/overlay.xul
