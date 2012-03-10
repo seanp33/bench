@@ -1,6 +1,0 @@
-bench is a scratch project for exploring the mozilla platform. Current experiements include,
-
-      * a dojo build to enable the use of dojo.provide/require/declare module system within mozilla extensions
-      * json-centric abstractions for working with embedded sqlite
-      * integration with Ozone Widget Framework
-      * misc utilities
