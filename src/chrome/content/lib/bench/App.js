@@ -5,22 +5,26 @@ dojo.require('bench.storage.SQLiteStore');
 
 dojo.declare('bench.App', null, {
     _entityService:null,
-    _sqliteStore:null,
+    _entityStore:null,
 
     constructor:function() {
-        Application.console.log('dojo has loaded bench.App');
-        Application.console.log("Services.appinfo.ID: " + Services.appinfo.ID);
-        this._entityService = new bench.service.EntityService();
-        this._sqliteStore = new bench.storage.SQLiteStore();
-
         this._logger = Log4Moz.repository.getLogger('bench.App');
-        this._logger.level = Log4Moz.Level["Debug"];
-        this._logger.error("Oh noes!! Something bad happened!");
-        this._logger.debug("Details about bad thing only useful during debugging");
+        this._logger.level = Log4Moz.Level['Debug'];
+        this._logger.debug('bench.App constructed');
+
+        this._entityService = new bench.service.EntityService();
+        this._entityStore = new bench.storage.SQLiteStore('entityStore.sqlite');
     },
 
     run:function() {
-        this._entityService.service();
-        this._sqliteStore.store();
+        this._initEntityStore();
+    },
+
+    _initEntityStore:function(){
+        this._entityStore.open();
+        this._entityStore.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT)");
+        this._entityStore.close();
+
+        this._logger.debug('successfully initialized <' + this._entityStore.dbName + '>');
     }
 });
