@@ -9,6 +9,7 @@ dojo.declare('bench.owf.OWFContext', null, {
 
     constructor:function() {
         this._initLogging();
+        this._logger.debug('constructed');
     },
 
     initialize:function(ozone, gadgets){

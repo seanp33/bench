@@ -8,18 +8,18 @@ dojo.declare('bench.BrowserController', null, {
 
     _owfContext:null,
 
-    constuctor:function(owfContext) {
+    constructor:function(owfContext) {
         this._owfContext = owfContext;
         this._initLogging();
         this._initBrowserEventHandlers();
     },
 
     _onBrowserLoad:function(event) {
-        this._logger.debug('bench.BrowserController#onBrowserLoad');
+        this._logger.debug('onBrowserLoad');
     },
 
     _onBrowserUnload:function(event) {
-        this._logger.debug('bench.BrowserController#onBrowserUnload');
+        this._logger.debug('onBrowserUnload');
     },
 
     _onDOMFrameContentLoaded:function(event) {
@@ -46,11 +46,27 @@ dojo.declare('bench.BrowserController', null, {
     },
 
     _initBrowserEventHandlers:function() {
+        if(document == undefined){
+            throw new Error('Document is undefined. Unable to initialize browser event handlers');
+        }
+
         let appcontent = document.getElementById("appcontent");
-        if (appcontent) {
-            appcontent.addEventListener("load", this._onBrowserLoad, true);
-            appcontent.addEventListener("unload", this._onBrowserUnload, true);
-            appcontent.addEventListener("DOMFrameContentLoaded", this._onDOMFrameContentLoaded, true);
+        let self = this;
+        if (appcontent != undefined) {
+
+            // TODO: establish a better way to observe these events...formal moz observer?
+            appcontent.addEventListener("load", function(event){
+                self._onBrowserLoad.call(self, event);
+            }, true);
+
+            appcontent.addEventListener("unload", function(event){
+                self._onBrowserUnload.call(self, event);
+            }, true);
+
+            appcontent.addEventListener("DOMFrameContentLoaded", function(event){
+                self._onDOMFrameContentLoaded.call(self, event);
+            }, true);
+
         } else {
             this._logger.error("appcontent not here yall");
         }
