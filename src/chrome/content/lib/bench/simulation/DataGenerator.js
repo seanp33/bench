@@ -8,6 +8,7 @@ dojo.declare('bench.simulation.DataGenerator', null, {
     constructor:function(store, handler){
         this._store = store;
         this._handler = handler;
+        this._initLogging();
     },
 
     fill:function(recordCount) {
@@ -24,7 +25,7 @@ dojo.declare('bench.simulation.DataGenerator', null, {
             this._logger.error("### worker error: " + event);
         };
 
-        worker.postMessage(count);
+        worker.postMessage(recordCount);
     },
 
     executeStatements:function(sqlStatements) {

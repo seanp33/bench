@@ -25,7 +25,7 @@
     <script type="application/x-javascript" src="chrome://bench/content/overlay.js"/>
 
     <script type="application/x-javascript">
-        function runTest() {
+        function runTest_legacy() {
             LOG("running");
             var store = new Bench.Store("bench-test.sqlite");
             store.open();
@@ -106,18 +106,18 @@
     </script>
 
     <commandset id="mainCommandSet">
-        <command id="cmd_runTests" oncommand="runTest();"/>
+        <command id="cmd_runSim" oncommand="Bench.runSimulation();"/>
     </commandset>
 
     <!--
     // TODO: assign desired keycode
     <keyset id="mainKeyset">
-      <key id="key_toggleBench" keycode="VK_F12" command="cmd_runTests"/>
+      <key id="key_toggleBench" keycode="VK_F12" command="cmd_runSim"/>
     </keyset>
     -->
 
     <menupopup id="menu_ToolsPopup">
-        <menuitem id="menu_bench" label="&bench.Bench;" command="cmd_runTests"/>
+        <menuitem id="menu_bench" label="&bench.Bench;" command="cmd_runSim"/>
     </menupopup>
 
     <vbox id="appcontent">
@@ -165,7 +165,7 @@
                         <groupbox>
                             <caption label="&bench.Simulation;"/>
                             <hbox id="_bRunTestBox" pack='start' align='center'>
-                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd_runTests'/>
+                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd_runSim'/>
                                 <progressmeter id="_bTestProgress" mode="undetermined" hidden='true'/>
                             </hbox>
                         </groupbox>
