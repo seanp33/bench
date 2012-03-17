@@ -129,6 +129,7 @@
             </tabs>
             <tabpanels>
                 <tabpanel>
+
                     <tree flex="1" rows="15">
                         <treecols>
                             <treecol label="ID" sort="?id" flex="1"/>
@@ -137,7 +138,7 @@
                             <treecol label="Dst" sort="?dst" flex="1"/>
                             <treecol label="Dst Port" sort="?dst_port" flex="1"/>
                         </treecols>
-                        <treechildren id='treeData' datasources='profile:bench-test.sqlite' ref='*' querytype='storage'>
+                        <treechildren id='treeData' datasources='profile:entityStore.sqlite' ref='*' querytype='storage'>
                             <template>
                                 <query>
                                     select id, src, src_port, dst, dst_port from raw_data
@@ -156,6 +157,7 @@
                             </template>
                         </treechildren>
                     </tree>
+
                 </tabpanel>
                 <tabpanel>
                     <vbox id="_bMainPanel" collapsed="false" flex="1">

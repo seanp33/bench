@@ -25,7 +25,7 @@ dojo.declare('bench.App', null, {
         this._entityService = new bench.service.EntityService();
         this._entityStore = new bench.storage.SQLiteStore('entityStore.sqlite');
         this._entityStore.open();
-        this._entityStore.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT)");
+        this._entityStore.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT, src TEXT, src_port INTEGER, dst TEXT, dst_port INTEGER)");
         this._entityStore.close();
 
         this._logger.debug('successfully initialized <' + this._entityStore.dbName + '>');
