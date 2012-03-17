@@ -1,7 +1,5 @@
 dojo.provide('bench.storage.SQLiteStore');
 
-dojo.require('bench.util.SomeUtil');
-
 dojo.declare('bench.storage.SQLiteStore', null, {
 
     dbName:null,
@@ -138,10 +136,7 @@ dojo.declare('bench.storage.SQLiteStore', null, {
     },
 
     _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.App');
+        this._logger = Log4Moz.repository.getLogger('bench.store.SQLiteStore');
         this._logger.level = Log4Moz.Level['Debug'];
     }
-
-
-
 });

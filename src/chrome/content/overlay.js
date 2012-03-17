@@ -13,7 +13,7 @@ const $ = function(id) {
 
 dojo.require('bench.App');
 
-// initialize logging
+// initialize logging harness
 let formatter = new Log4Moz.BasicFormatter();
 let root = Log4Moz.repository.rootLogger;
 root.level = Log4Moz.Level["All"];
@@ -28,6 +28,10 @@ var Bench = {
 
         var app = new bench.App();
         app.run();
+
+        return;
+
+        // deprecated from here down - see dojo impls
         Application.console.log("Services.appinfo.ID (ob): " + Services.appinfo.ID);
         var appcontent = document.getElementById("appcontent");
         if (appcontent) {

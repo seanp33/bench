@@ -1,14 +1,12 @@
 dojo.provide('bench.service.EntityService');
 
-dojo.require('bench.util.SomeUtil');
-
 dojo.declare('bench.service.EntityService',null,{
     constructor:function(){
-        Application.console.log('bench.service.EntityService is here');
-        bench.util.SomeUtil.trace('bench.service.EntityService is here');
+        this._initLogging();
     },
 
-    service:function(){
-        bench.util.SomeUtil.trace('bench.service.EntityService#service');
+    _initLogging:function() {
+        this._logger = Log4Moz.repository.getLogger('bench.service.EntityService');
+        this._logger.level = Log4Moz.Level['Debug'];
     }
 });
