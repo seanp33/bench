@@ -32,6 +32,7 @@ dojo.declare('bench.App', null, {
     },
 
     _initBrowserEnvironment:function() {
+        this._logger.debug('initializing browser env');
         this._owfContext = new bench.owf.OWFContext();
         this._browserController = new bench.BrowserController(this._owfContext);
     },

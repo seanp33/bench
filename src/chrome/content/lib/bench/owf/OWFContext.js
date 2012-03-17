@@ -15,7 +15,7 @@ dojo.declare('bench.owf.OWFContext', null, {
         this._ozone = ozone;
         this._gadgets = gadgets;
         this._pubsub = gadgets.pubsub;
-        this._logger.debug('bench.owf.OWFContext initialized');
+        this._logger.debug('initialized');
     },
 
     isInitialized:function() {

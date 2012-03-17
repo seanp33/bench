@@ -11,17 +11,18 @@ dojo.declare('bench.BrowserController', null, {
     constuctor:function(owfContext) {
         this._owfContext = owfContext;
         this._initLogging();
+        this._initBrowserEventHandlers();
     },
 
-    onBrowserLoad:function(event) {
+    _onBrowserLoad:function(event) {
         this._logger.debug('bench.BrowserController#onBrowserLoad');
     },
 
-    onBrowserUnload:function(event) {
+    _onBrowserUnload:function(event) {
         this._logger.debug('bench.BrowserController#onBrowserUnload');
     },
 
-    onDOMFrameContentLoaded:function(event) {
+    _onDOMFrameContentLoaded:function(event) {
         this._logger.debug('bench.BrowserController#onDOMFrameContentLoaded');
 
         let doc = event.originalTarget;
@@ -39,6 +40,19 @@ dojo.declare('bench.BrowserController', null, {
             } catch(error) {
                 this._logger.error(error);
             }
+        } else {
+            this._logger.debug('OWF not present. idle');
+        }
+    },
+
+    _initBrowserEventHandlers:function() {
+        let appcontent = document.getElementById("appcontent");
+        if (appcontent) {
+            appcontent.addEventListener("load", this._onBrowserLoad, true);
+            appcontent.addEventListener("unload", this._onBrowserUnload, true);
+            appcontent.addEventListener("DOMFrameContentLoaded", this._onDOMFrameContentLoaded, true);
+        } else {
+            this._logger.error("appcontent not here yall");
         }
     },
 
