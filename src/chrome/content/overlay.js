@@ -6,11 +6,6 @@ Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 Cu.import("resource://bench.modules/log4moz.jsm");
 
-const LOG = Application.console.log;
-const $ = function(id) {
-    return document.getElementById(id);
-}
-
 dojo.require('bench.App');
 dojo.require('bench.simulation.DataGenerator');
 
@@ -30,9 +25,9 @@ var Bench = {
     },
 
     runSimulation:function() {
-        LOG('running simulation...');
+        Application.console.log('running simulation...');
         // TODO: use dojo.query here instead
-        $('_bTestProgress').setAttribute('hidden', false);
+        dojo.byId('_bTestProgress').setAttribute('hidden', false);
 
         var self = this;
         let generator = new bench.simulation.DataGenerator(Bench.app._entityStore, {
@@ -50,20 +45,20 @@ var Bench = {
                             break;
                     }
 
-                    LOG('handleCompletion: ' + msg);
+                    Application.console.log('handleCompletion: ' + msg);
 
                     if (reason == 0) {
                         self.selectSome();
-                        $('treeData').builder.rebuild();
+                        dojo.byId('treeData').builder.rebuild();
                     }
                 },
 
                 handleError:function(error) {
-                    LOG(error.result + " : " + error.message);
+                    Application.console.log(error.result + " : " + error.message);
                 },
 
                 handleResult:function(resultSet) {
-                    LOG('handleResult');
+                    Application.console.log('handleResult');
                 }
             }
         );
@@ -75,14 +70,14 @@ var Bench = {
     selectSome:function() {
         //var q = Bench.Store.Util.assembleSelect('raw_data', {dst_port:675});
         var q = 'select * from raw_data limit 200000';
-        LOG(q);
+        Application.console.log(q);
 
         let store = Bench.app._entityStore;
         store.open();
-        LOG('Start: ' + new Date());
+        Application.console.log('Start: ' + new Date());
         store.sql(q, {
             handleError:function(error) {
-                LOG(error.result + " : " + error.message);
+                Application.console.log(error.result + " : " + error.message);
             },
 
             handleResult: function(aResultSet) {
@@ -98,12 +93,12 @@ var Bench = {
             },
 
             handleCompletion:function(reason) {
-                LOG('Finish: ' + new Date());
+                Application.console.log('Finish: ' + new Date());
                 let store = Bench.app._entityStore;
                 store.close(true);
 
                 // TODO: use dojo.query
-                $('_bTestProgress').setAttribute('hidden', true);
+                dojo.byId('_bTestProgress').setAttribute('hidden', true);
             }
         });
     }
