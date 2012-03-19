@@ -7,9 +7,9 @@ bench.util.Util.jeval = function(jsStr){
 }
 
 bench.util.Util.dump = function(obj){
-    let log = Application.console.log();
+    let log = Application.console.log;
     for(let p in obj){
-        log.debug(p + ':' + obj[p]);
+        log(p + ':' + obj[p]);
     }
 
 }

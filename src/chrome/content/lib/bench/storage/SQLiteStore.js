@@ -1,5 +1,7 @@
 dojo.provide('bench.storage.SQLiteStore');
 
+dojo.require('bench.util.Util');
+
 dojo.declare('bench.storage.SQLiteStore', null, {
 
     dbName:null,
@@ -34,7 +36,7 @@ dojo.declare('bench.storage.SQLiteStore', null, {
             async ? this.conn.asyncClose() : this.conn.close();
             this._opened = false;
         } else {
-            throw new Error('No open database connection for <' + this.dbName + '> was found. @see Bench.Store.open(...)');
+            throw new Error('No open database connection for <' + this.dbName + '> was found. has it been opened?');
         }
     },
 
@@ -58,7 +60,13 @@ dojo.declare('bench.storage.SQLiteStore', null, {
         this.sql(this.assembleUpdate(table, idField, obj));
     },
 
+    describe:function(table, handler) {
+        let q = 'PRAGMA table_info(' + table + ')';
+        this.sql(q, handler);
+    },
+
     sql:function(sql, handler) {
+        this._logger.debug(sql);
         if (handler == undefined || handler == null) {
             this.conn.executeSimpleSQL(sql);
         } else {

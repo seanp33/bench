@@ -26,10 +26,16 @@
 
     <commandset id="mainCommandSet">
         <command id="cmdRunSimulation" oncommand="Bench.runSimulation();"/>
+        <command id="cmdDebug" oncommand="Bench.debug();"/>
     </commandset>
 
     <menupopup id="menu_ToolsPopup">
-        <menuitem id="menu_bench" label="&bench.Bench;" command="cmdRunSimulation"/>
+        <menu id="benchToolsMenu" label="&bench.Bench;">
+            <menupopup id="benchToolsMenuPopup">
+                <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmdRunSimulation"/>
+                <menuitem id="benchDebugMenuItem" label="&bench.Debug;" command="cmdDebug"/>
+            </menupopup>
+        </menu>
     </menupopup>
 
     <vbox id="appcontent">

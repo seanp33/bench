@@ -8,6 +8,7 @@ Cu.import("resource://bench.modules/log4moz.jsm");
 
 dojo.require('bench.App');
 dojo.require('bench.simulation.DataGenerator');
+dojo.require('bench.storage.AsyncHandler');
 
 // initialize logging harness
 let formatter = new Log4Moz.BasicFormatter();
@@ -24,42 +25,42 @@ var Bench = {
         Bench.app.run();
     },
 
+    debug:function() {
+        let store = Bench.app._entityStore;
+        store.open();
+
+        let handler = new bench.storage.AsyncHandler(
+            function(aResultSet) {
+                for (let row = aResultSet.getNextRow();
+                     row;
+                     row = aResultSet.getNextRow()) {
+
+                    let name = row.getResultByName('name');
+                    let type = row.getResultByName('type');
+
+                    Application.console.log('name: ' + name + ', type: ' + type);
+                }
+            });
+
+        store.describe('raw_data', handler);
+    },
+
     runSimulation:function() {
         Application.console.log('running simulation...');
-        // TODO: use dojo.query here instead
         dojo.byId('_bTestProgress').setAttribute('hidden', false);
 
         var self = this;
+
         let generator = new bench.simulation.DataGenerator(Bench.app._entityStore, {
                 handleCompletion:function(reason) {
-                    let msg;
-                    switch (reason) {
-                        case 0 :
-                            msg = 'REASON_FINISHED';
-                            break;
-                        case 1 :
-                            msg = 'REASON_CANCELED';
-                            break;
-                        case 2   :
-                            msg = 'REASON_ERROR';
-                            break;
-                    }
-
-                    Application.console.log('handleCompletion: ' + msg);
-
                     if (reason == 0) {
                         self.selectSome();
                         dojo.byId('treeData').builder.rebuild();
                     }
                 },
 
-                handleError:function(error) {
-                    Application.console.log(error.result + " : " + error.message);
-                },
-
-                handleResult:function(resultSet) {
-                    Application.console.log('handleResult');
-                }
+                handleError:null,
+                handleResult:null
             }
         );
 
@@ -96,8 +97,6 @@ var Bench = {
                 Application.console.log('Finish: ' + new Date());
                 let store = Bench.app._entityStore;
                 store.close(true);
-
-                // TODO: use dojo.query
                 dojo.byId('_bTestProgress').setAttribute('hidden', true);
             }
         });
