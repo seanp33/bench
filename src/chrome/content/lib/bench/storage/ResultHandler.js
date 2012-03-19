@@ -1,13 +1,15 @@
-dojo.provide('bench.storage.AsyncHandler');
+dojo.provide('bench.storage.ResultHandler');
 
-dojo.declare('bench.storage.AsyncHandler', null, {
+dojo.declare('bench.storage.ResultHandler', null, {
 
-    constructor:function(resultHandler){
+    constructor:function(resultHandler, completionHandler, errorHandler){
         this._initLogging();
         this.handleResult = resultHandler;
+        this.handleCompletion = completionHandler || this._handleCompletion;
+        this.handleError = errorHandler || this._handleError;
     },
 
-    handleCompletion:function(reason) {
+    _handleCompletion:function(reason) {
         let msg;
         switch (reason) {
             case 0 :
@@ -20,14 +22,16 @@ dojo.declare('bench.storage.AsyncHandler', null, {
                 msg = 'REASON_ERROR';
                 break;
         }
+
+        this._logger.debug(msg);
     },
 
-    handleError:function(error) {
+    _handleError:function(error) {
         this._logger.error(error);
     },
 
     _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.storage.AsyncHandler');
+        this._logger = Log4Moz.repository.getLogger('bench.storage.ResultHandler');
         this._logger.level = Log4Moz.Level['Debug'];
     }
 });

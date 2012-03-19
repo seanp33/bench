@@ -8,7 +8,7 @@ Cu.import("resource://bench.modules/log4moz.jsm");
 
 dojo.require('bench.App');
 dojo.require('bench.simulation.DataGenerator');
-dojo.require('bench.storage.AsyncHandler');
+dojo.require('bench.storage.ResultHandler');
 
 // initialize logging harness
 let formatter = new Log4Moz.BasicFormatter();
@@ -29,7 +29,7 @@ var Bench = {
         let store = Bench.app._entityStore;
         store.open();
 
-        let handler = new bench.storage.AsyncHandler(
+        let handler = new bench.storage.ResultHandler(
             function(aResultSet) {
                 for (let row = aResultSet.getNextRow();
                      row;

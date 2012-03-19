@@ -7,6 +7,7 @@ dojo.require('bench.owf.OWFContext');
 
 dojo.declare('bench.App', null, {
     _entityService:null,
+    _indexService:null,
     _entityStore:null,
     _owfContext:null,
     _browserController:null,
@@ -21,13 +22,10 @@ dojo.declare('bench.App', null, {
         this._logger.debug('bench.App#run');
     },
 
-    _initEntitySuite:function() {
-        this._entityService = new bench.service.EntityService();
+    _initServices:function() {
         this._entityStore = new bench.storage.SQLiteStore('entityStore.sqlite');
-        this._entityStore.open();
-        this._entityStore.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT, src TEXT, src_port INTEGER, dst TEXT, dst_port INTEGER)");
-        this._entityStore.close();
-
+        this._indexService = new bench.service.IndexService();
+        this._entityService = new bench.service.EntityService(this._entityStore, this._indexService);
         this._logger.debug('successfully initialized <' + this._entityStore.dbName + '>');
     },
 
