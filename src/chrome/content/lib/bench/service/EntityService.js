@@ -1,22 +1,21 @@
 dojo.provide('bench.service.EntityService');
 
-dojo.declare('bench.service.EntityService',null,{
+dojo.declare('bench.service.EntityService', null, {
 
-    _entityStore:null,
+    _store:null,
 
-    constructor:function(entityStore, indexService){
-        this._entityStore = entityStore;
-        this._indexService = indexService;
+    constructor:function(store) {
+        this._store = store;
         this._initLogging();
         this._initializeStore();
+
+        dojo.publish('bench.inject', [{target:this, injectType:'bench.store.SQLStore'}]);
     },
 
-    loadEntities:function(){},
-
-    _initializeStore:function(){
-        this._entityStore.open();
-        this._entityStore.sql("CREATE TABLE IF NOT EXISTS raw_data (id INTEGER PRIMARY KEY AUTOINCREMENT, src TEXT, src_port INTEGER, dst TEXT, dst_port INTEGER)");
-        this._entityStore.close();
+    _initializeStore:function() {
+        this._store.open();
+        this._store.sql(bench.service.EntityService.CREATE_TABLE);
+        this._store.close();
     },
 
     _initLogging:function() {
@@ -24,3 +23,5 @@ dojo.declare('bench.service.EntityService',null,{
         this._logger.level = Log4Moz.Level['Debug'];
     }
 });
+
+bench.service.EntityService.CREATE_TABLE = "CREATE TABLE IF NOT EXISTS entities (id INTEGER PRIMARY KEY AUTOINCREMENT, src TEXT, src_port INTEGER, dst TEXT, dst_port INTEGER)";

@@ -26,14 +26,16 @@
 
     <commandset id="mainCommandSet">
         <command id="cmdRunSimulation" oncommand="Bench.runSimulation();"/>
-        <command id="cmdDebug" oncommand="Bench.debug();"/>
+        <command id="cmdDebugDescribe" oncommand="Bench.debugDescribe();"/>
+        <command id="cmdDebugCreateView" oncommand="Bench.debugCreateView();"/>
     </commandset>
 
     <menupopup id="menu_ToolsPopup">
         <menu id="benchToolsMenu" label="&bench.Bench;">
             <menupopup id="benchToolsMenuPopup">
                 <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmdRunSimulation"/>
-                <menuitem id="benchDebugMenuItem" label="&bench.Debug;" command="cmdDebug"/>
+                <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmdDebugDescribe"/>
+                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;" command="cmdDebugCreateView"/>
             </menupopup>
         </menu>
     </menupopup>
@@ -77,7 +79,7 @@
                                           querytype='storage'>
                                 <template>
                                     <query>
-                                        select id, src, src_port, dst, dst_port from raw_data
+                                        select id, src, src_port, dst, dst_port from entities
                                     </query>
                                     <action>
                                         <treeitem uri="?">

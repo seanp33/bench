@@ -1,5 +1,6 @@
 <!ENTITY bench.Bench "Bench">
 <!ENTITY bench.Welcome "Click to begin the simulation">
-<!ENTITY bench.Debug "Debug">
+<!ENTITY bench.DebugDescribe "Describe (Debug)">
+<!ENTITY bench.DebugCreateView "Create View (Debug)">
 <!ENTITY bench.Simulation "Simulation">
 <!ENTITY bench.Start "Start">

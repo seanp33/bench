@@ -25,8 +25,8 @@ var Bench = {
         Bench.app.run();
     },
 
-    debug:function() {
-        let store = Bench.app._entityStore;
+    debugDescribe:function() {
+        let store = Bench.app._store;
         store.open();
 
         let handler = new bench.storage.ResultHandler(
@@ -42,7 +42,12 @@ var Bench = {
                 }
             });
 
-        store.describe('raw_data', handler);
+        store.describe('entities', handler);
+    },
+
+    debugCreateView:function(){
+        let viewService = Bench.app._viewService;
+        viewService.createView('srcPortLt3000', 'select * from entities where src_port < 3000');
     },
 
     runSimulation:function() {
@@ -51,7 +56,7 @@ var Bench = {
 
         var self = this;
 
-        let generator = new bench.simulation.DataGenerator(Bench.app._entityStore, {
+        let generator = new bench.simulation.DataGenerator(Bench.app._store, {
                 handleCompletion:function(reason) {
                     if (reason == 0) {
                         self.selectSome();
@@ -70,10 +75,10 @@ var Bench = {
 
     selectSome:function() {
         //var q = Bench.Store.Util.assembleSelect('raw_data', {dst_port:675});
-        var q = 'select * from raw_data limit 200000';
+        var q = 'select * from entities limit 200000';
         Application.console.log(q);
 
-        let store = Bench.app._entityStore;
+        let store = Bench.app._store;
         store.open();
         Application.console.log('Start: ' + new Date());
         store.sql(q, {
@@ -95,7 +100,7 @@ var Bench = {
 
             handleCompletion:function(reason) {
                 Application.console.log('Finish: ' + new Date());
-                let store = Bench.app._entityStore;
+                let store = Bench.app._store;
                 store.close(true);
                 dojo.byId('_bTestProgress').setAttribute('hidden', true);
             }

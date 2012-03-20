@@ -7,7 +7,7 @@ function execute(count){
         var srcPort = rand(100, 9000);
         var dst = randIp(255);
         var dstPort = rand(100, 9000);
-        var sql = "INSERT into raw_data (src, src_port, dst, dst_port) VALUES('" + src + "', " + srcPort + ", '" + dst + "', "  + dstPort + ")";
+        var sql = "INSERT into entities (src, src_port, dst, dst_port) VALUES('" + src + "', " + srcPort + ", '" + dst + "', "  + dstPort + ")";
         sqlStatements.push(sql);
         
     }
