@@ -1,5 +1,10 @@
-content   bench              jar:chrome/bench.jar!/content/
-skin        bench  classic/1.0 chrome/skin/
-locale      bench en-US       locale/en-US/
+content     bench              jar:chrome/bench.jar!/content/
+skin        bench  classic/1.0 jar:chrome/bench.jar!/skin/
+locale      bench en-US        jar:chrome/bench.jar!/locale/en-US/
+
+resource  bench.modules	        modules/
+
+component {723079F5-F880-40BB-8283-8266DEA93960} components/getExtDir.js
+contract @mackerron.com/getExtDir;1 {723079F5-F880-40BB-8283-8266DEA93960}
 
 overlay chrome://browser/content/browser.xul  chrome://bench/content/overlay.xul

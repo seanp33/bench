@@ -8,8 +8,6 @@ dojo.declare('bench.service.EntityService', null, {
         this._store = store;
         this._initLogging();
         this._initializeStore();
-
-        dojo.publish('bench.inject', [{target:this, injectType:'bench.store.SQLStore'}]);
     },
 
     _initializeStore:function() {

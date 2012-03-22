@@ -2,6 +2,7 @@ dojo.provide('bench.App');
 
 dojo.require('bench.service.EntityService');
 dojo.require('bench.service.ViewService');
+dojo.require('bench.service.IGraphService');
 dojo.require('bench.storage.SQLiteStore');
 dojo.require('bench.BrowserController');
 dojo.require('bench.owf.OWFContext');
@@ -11,13 +12,13 @@ dojo.declare('bench.App', null, {
     _context:{},
     _entityService:null,
     _viewService:null,
+    _igraphService:null,
     _store:null,
     _owfContext:null,
     _browserController:null,
 
     constructor:function() {
         this._initLogging();
-        this._initGlobalListener();
         this._initServices();
         this._initBrowserEnvironment();
     },
@@ -30,6 +31,7 @@ dojo.declare('bench.App', null, {
         this._store = this._register(new bench.storage.SQLiteStore('entityStore.sqlite'));
         this._viewService = this._register(new bench.service.ViewService(this._store));
         this._entityService = this._register(new bench.service.EntityService(this._store));
+        this._igraphService = this._register(new bench.service.IGraphService());
         this._logger.debug('successfully initialized <' + this._store.dbName + '>');
     },
 
@@ -39,17 +41,7 @@ dojo.declare('bench.App', null, {
         this._browserController = this._register(new bench.BrowserController(this._owfContext));
     },
 
-    _initGlobalListener:function(){
-       let self = this;
-        dojo.subscribe('bench.inject', function(data){
-            self._logger.debug('dumping...');
-            let target = data.target;
-            let declaredClass = data.declaredClass;
-            self._logger.debug('target.declaredClass: ' + target.declaredClass + ' requested injection of ' + data.injectType);
-        });
-    },
-
-    _register:function(obj){
+    _register:function(obj) {
         this._context[obj.declaredClass] = obj;
         return obj;
     },

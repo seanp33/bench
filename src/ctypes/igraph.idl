@@ -1,0 +1,29 @@
+#include "nsISupports.idl"
+
+[scriptable, uuid(45f1e4e4-0c93-4725-aa11-919a31253fda)]
+interface nsIiGraph : nsISupports {
+    attribute string hostIP;
+    attribute string port;
+    attribute string SecurePort;ls
+    attribute string Password;
+    attribute string CipherSuite;
+    attribute string SSLChannels;
+    attribute boolean fullScreen;
+    attribute boolean AdminConsole;
+    attribute string Title;
+    attribute string dynamicMenu;
+    attribute string NumberOfMonitors;
+    attribute string GuestHostName;
+    attribute string HotKey;
+    attribute boolean NoTaskMgrExecution;
+    attribute boolean SendCtrlAltdelete;
+    attribute unsigned short UsbListenPort;
+    attribute boolean UsbAutoShare;
+
+    void connect();
+    void show();
+    void disconnect();
+    void SetLanguageStrings(in string section, in string lang);
+    void SetUsbFilter(in string filter);
+    long ConnectedStatus();
+};

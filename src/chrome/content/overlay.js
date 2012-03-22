@@ -2,9 +2,11 @@ var Cc = Components.classes;
 var Ci = Components.interfaces;
 var Cu = Components.utils;
 
+// single import of all js modules used throughout dojo modules
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 Cu.import("resource://bench.modules/log4moz.jsm");
+Cu.import("resource://gre/modules/ctypes.jsm");
 
 dojo.require('bench.App');
 dojo.require('bench.simulation.DataGenerator');
