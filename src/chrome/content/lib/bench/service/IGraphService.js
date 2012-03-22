@@ -12,10 +12,10 @@ dojo.declare('bench.service.IGraphService', null, {
     IG_BOOL_T:ctypes.int,
 
     // igraph_vector_t
-    IG_VECTOR_T:null,
+    IG_VECTOR_T:ctypes.int,
 
 
-    IG_STRUCT_T:null,
+    IG_GRAPH_STRUCT_T:null,
     /*
      IGRAPH_SUCCESS : 0,
      IGRAPH_FAILURE : 1,
@@ -64,21 +64,20 @@ dojo.declare('bench.service.IGraphService', null, {
         this._initFunctions();
 
         // test this
-        /*
-         try {
-         let graph = new this.IG_STRUCT_T();
-         this._logger.debug('..... before calling igraph_empty .....');
-         bench.util.Util.dump(graph);
 
-         let retCode = this.igraph_empty(graph, 100, true);
-         this._logger.debug('retCode: ' + retCode);
+        try {
+            let graph = new this.IG_GRAPH_STRUCT_T();
+            this._logger.debug('..... before calling igraph_empty .....');
+            bench.util.Util.dump(graph);
 
-         this._logger.debug('..... after calling igraph_empty .....');
-         bench.util.Util.dump(graph);
-         } catch(e) {
-         this._logger.error('error testing igraph_empty' + e);
-         }
-         */
+            let retCode = this.igraph_empty(graph.ptr, 1, true);
+            this._logger.debug('retCode: ' + retCode);
+
+            this._logger.debug('..... after calling igraph_empty .....');
+            bench.util.Util.dump(graph);
+        } catch(e) {
+            this._logger.error('error testing igraph_empty' + e);
+        }
     },
 
     _initLib:function() {
@@ -108,7 +107,7 @@ dojo.declare('bench.service.IGraphService', null, {
 
     _initTypes:function() {
         // https://developer.mozilla.org/en/js-ctypes/Using_js-ctypes/Declaring_types
-        this.IG_STRUCT_T = new ctypes.StructType("tm",
+        this.IG_GRAPH_STRUCT_T = new ctypes.StructType("igStruct",
             [
                 { "n": this.IG_INTEGER_T },
                 { "directed": this.IG_BOOL_T },
@@ -125,7 +124,7 @@ dojo.declare('bench.service.IGraphService', null, {
     _initFunctions:function() {
         //int igraph_empty(igraph_t *graph, igraph_integer_t n, igraph_bool_t directed);
         //this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_STRUCT_T.ptr, this.IG_INTEGER_T, this.IG_BOOL_T);
-        this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_STRUCT_T.ptr, this.IG_INTEGER_T, this.IG_BOOL_T);
+        this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_INTEGER_T, this.IG_GRAPH_STRUCT_T.ptr, this.IG_INTEGER_T, this.IG_BOOL_T);
     },
 
     _initLogging:function() {
