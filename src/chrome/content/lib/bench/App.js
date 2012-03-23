@@ -2,7 +2,7 @@ dojo.provide('bench.App');
 
 dojo.require('bench.service.EntityService');
 dojo.require('bench.service.ViewService');
-dojo.require('bench.service.IGraphService');
+dojo.require('bench.service.igraph.IGraphService');
 dojo.require('bench.storage.SQLiteStore');
 dojo.require('bench.BrowserController');
 dojo.require('bench.owf.OWFContext');
@@ -31,7 +31,7 @@ dojo.declare('bench.App', null, {
         this._store = this._register(new bench.storage.SQLiteStore('entityStore.sqlite'));
         this._viewService = this._register(new bench.service.ViewService(this._store));
         this._entityService = this._register(new bench.service.EntityService(this._store));
-        this._igraphService = this._register(new bench.service.IGraphService());
+        this._igraphService = this._register(new bench.service.igraph.IGraphService());
         this._logger.debug('successfully initialized <' + this._store.dbName + '>');
     },
 
