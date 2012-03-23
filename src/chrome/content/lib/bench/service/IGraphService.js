@@ -9,10 +9,10 @@ dojo.declare('bench.service.IGraphService', null, {
 
     IG_INTEGER_T:ctypes.double,
     IG_REAL_T:ctypes.double,
-    IG_BOOL_T:ctypes.int,
+    IG_BOOL_T:ctypes.bool,
 
     // igraph_vector_t
-    IG_VECTOR_T:ctypes.int,
+    IG_VECTOR_T:null,
 
 
     IG_GRAPH_STRUCT_T:null,
@@ -64,13 +64,12 @@ dojo.declare('bench.service.IGraphService', null, {
         this._initFunctions();
 
         // test this
-
         try {
             let graph = new this.IG_GRAPH_STRUCT_T();
             this._logger.debug('..... before calling igraph_empty .....');
             bench.util.Util.dump(graph);
 
-            let retCode = this.igraph_empty(graph.ptr, 1, true);
+            let retCode = this.igraph_empty(graph.address(), 1, true);
             this._logger.debug('retCode: ' + retCode);
 
             this._logger.debug('..... after calling igraph_empty .....');
@@ -83,16 +82,13 @@ dojo.declare('bench.service.IGraphService', null, {
     _initLib:function() {
 
         if (this.lib == null) {
-
             // TODO: move this to some kind of external config
             let sos = {};
             sos['Darwin'] = 'libigraph.0.dylib';
 
-            let home = bench.util.Util.getPath("Home");
             let extBase = bench.util.Util.getExtPath().path;
 
             let os = bench.util.Util.getOs();
-            this._logger.debug('os: ' + os);
 
             let path = extBase + '/ctypes/igraph/' + os + '/' + sos[os];
             this._logger.debug("Attempting to load ctype from: " + path);
@@ -100,13 +96,23 @@ dojo.declare('bench.service.IGraphService', null, {
             try {
                 this.lib = ctypes.open(path);
             } catch(e) {
-                this._logger.error('igraph ctype initialization error' + e);
+                let msg = 'igraph ctype initialization error' + e;
+                this._logger.error(msg);
+                throw new Error(msg);
             }
         }
     },
 
     _initTypes:function() {
         // https://developer.mozilla.org/en/js-ctypes/Using_js-ctypes/Declaring_types
+
+        this.IG_VECTOR_T = new ctypes.StructType("igVector",
+            [
+                { "stor_begin": ctypes.voidptr_t },
+                { "stor_end": ctypes.voidptr_t },
+                { "end": ctypes.voidptr_t }
+            ]);
+
         this.IG_GRAPH_STRUCT_T = new ctypes.StructType("igStruct",
             [
                 { "n": this.IG_INTEGER_T },
@@ -123,8 +129,7 @@ dojo.declare('bench.service.IGraphService', null, {
 
     _initFunctions:function() {
         //int igraph_empty(igraph_t *graph, igraph_integer_t n, igraph_bool_t directed);
-        //this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_STRUCT_T.ptr, this.IG_INTEGER_T, this.IG_BOOL_T);
-        this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_INTEGER_T, this.IG_GRAPH_STRUCT_T.ptr, this.IG_INTEGER_T, this.IG_BOOL_T);
+        this.igraph_empty = this.lib.declare('igraph_empty', ctypes.default_abi, this.IG_INTEGER_T, ctypes.voidptr_t, this.IG_INTEGER_T, this.IG_BOOL_T);
     },
 
     _initLogging:function() {
