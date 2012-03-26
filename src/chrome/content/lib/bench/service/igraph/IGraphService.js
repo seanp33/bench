@@ -16,28 +16,26 @@ dojo.declare('bench.service.igraph.IGraphService', null, {
 
         // test this
         try {
+            this._logger.debug('..... igraph_full');
             let graph = new this.T.GRAPH_STRUCT_T();
-            this._logger.debug('..... before calling igraph_empty .....');
-            //bench.util.Util.dump(graph);
 
-            //let retCode = this.igraph_empty(graph.address(), 1, true);
-
-            // TODO: FIGURE OUT WHY THIS IS CRASHING THE DAMN THREAD!
-            let retCode = this.F.igraph_watts_strogatz_game(graph.address(), 10, 10, 10, 1);
-            this._logger.debug('retCode: ' + retCode);
-
-            this._logger.debug('..... after calling igraph_watts_strogatz_game .....');
-
-            //bench.util.Util.dump(graph);
+            let result = this.F.igraph_full(graph.address(), 5000000, true, true);
+            this._logger.debug('result: ' + result);
 
             let vcount = this.F.igraph_vcount(graph.address());
             this._logger.debug('igraph_vcount : ' + vcount);
 
+            let ecount = this.F.igraph_ecount(graph.address());
+            this._logger.debug('igraph_ecount : ' + ecount);
+
             let isDirected = this.F.igraph_is_directed(graph.address());
             this._logger.debug('igraph_is_directed : ' + isDirected);
 
+            result = this.F.igraph_destroy(graph.address());
+            this._logger.debug('..... graph destroyed : ' + result);
+
         } catch(e) {
-            this._logger.error('error testing igraph_watts_strogatz_game: ' + e);
+            this._logger.error('error testing graph stuffs: ' + e);
         }
     },
 

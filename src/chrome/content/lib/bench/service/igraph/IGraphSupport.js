@@ -81,18 +81,29 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
     },
 
     _initFunctions:function(lib) {
+        this.F.igraph_destroy = lib.declare('igraph_destroy', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t);
+
         // int empty(t *graph, integer_t n, bool_t directed);
         this.F.igraph_empty = lib.declare('igraph_empty', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t,
             this.T.INTEGER_T, this.T.BOOL_T);
+
+        // int igraph_full(igraph_t *graph, igraph_integer_t n, igraph_bool_t directed, igraph_bool_t loops);
+        this.F.igraph_full = lib.declare('igraph_full', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t,
+            this.T.INTEGER_T, this.T.BOOL_T, this.T.BOOL_T);
 
         // int growing_random_game(t *graph, integer_t n, integer_t m,
         // bool_t directed, bool_t citation);
         this.F.igraph_growing_random_game = lib.declare('igraph_growing_random_game', ctypes.default_abi, this.T.INTEGER_T,
             ctypes.voidptr_t, this.T.INTEGER_T, this.T.INTEGER_T, this.T.BOOL_T, this.T.BOOL_T);
 
-        //int igraph_watts_strogatz_game(igraph_t *graph, igraph_integer_t dim, igraph_integer_t size, igraph_integer_t nei, igraph_real_t p);
+        // int igraph_watts_strogatz_game(igraph_t *graph, igraph_integer_t dim, igraph_integer_t size, igraph_integer_t nei, igraph_real_t p);
         this.F.igraph_watts_strogatz_game = lib.declare('igraph_watts_strogatz_game', ctypes.default_abi, this.T.INTEGER_T,
             ctypes.voidptr_t, this.T.INTEGER_T, this.T.INTEGER_T, this.T.INTEGER_T, this.T.REAL_T);
+
+        // igraph_grg_game(&g, 100, 0, 0, 0, 0);
+        // int igraph_grg_game(igraph_t *graph, igraph_integer_t nodes, igraph_real_t radius, igraph_bool_t torus, igraph_vector_t *x, igraph_vector_t *y);
+        this.F.igraph_grg_game = lib.declare('igraph_grg_game', ctypes.default_abi, this.T.INTEGER_T,
+            ctypes.voidptr_t, this.T.INTEGER_T, this.T.REAL_T, this.T.BOOL_T, ctypes.voidptr_t, ctypes.voidptr_t);
 
         // igraph_integer_t igraph_vcount(const igraph_t *graph);
         this.F.igraph_vcount = lib.declare('igraph_vcount', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t);
@@ -106,5 +117,24 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
         // int igraph_create(igraph_t *graph, const igraph_vector_t *edges, igraph_integer_t n, igraph_bool_t directed);
         this.F.igraph_create = lib.declare('igraph_create', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t,
             ctypes.voidptr_t, this.T.INTEGER_T, this.T.BOOL_T);
+
+        /* Vector related */
+
+        this.F.igraph_vector_init = lib.declare('igraph_vector_init', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t, this.T.INTEGER_T);
+
+        // igraph_real_t igraph_vector_e         (const igraph_vector_t* v, long int pos);
+        this.F.igraph_vector_e = lib.declare('igraph_vector_e', ctypes.default_abi, this.T.REAL_T, ctypes.voidptr_t, this.T.INTEGER_T);
+
+        //igraph_real_t* igraph_vector_e_ptr  (const igraph_vector_t* v, long int pos);
+        this.F.igraph_vector_e_ptr = lib.declare('igraph_vector_e_ptr', ctypes.default_abi, this.T.REAL_T.ptr,
+            ctypes.voidptr_t, this.T.INTEGER_T);
+
+        //void igraph_vector_set       (igraph_vector_t* v, long int pos, igraph_real_t value);
+        this.F.igraph_vector_set = lib.declare('igraph_vector_set', ctypes.default_abi, ctypes.void_t,
+            ctypes.voidptr_t, this.T.INTEGER_T, this.T.REAL_T);
+
+        //igraph_real_t igraph_vector_tail(const igraph_vector_t *v);
+        this.F.igraph_vector_tail = lib.declare('igraph_vector_tail', ctypes.default_abi, this.T.REAL_T, ctypes.voidptr_t);
+
     }
 });
