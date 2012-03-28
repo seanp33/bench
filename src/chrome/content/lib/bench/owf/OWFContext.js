@@ -32,7 +32,7 @@ dojo.declare('bench.owf.OWFContext', null, {
     },
 
     unsubscribe:function(channel) {
-        this._pubsub.subscribe(channel);
+        this._pubsub.unsubscribe(channel);
     },
 
     publish:function(channel, message) {
