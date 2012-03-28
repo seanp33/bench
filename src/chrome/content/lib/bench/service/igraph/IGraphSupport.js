@@ -53,11 +53,11 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
     F:{},
 
     constructor:function(lib) {
-        this._initTypes();
+        this._initTypes(lib);
         this._initFunctions(lib);
     },
 
-    _initTypes:function() {
+    _initTypes:function(lib) {
         // https://developer.mozilla.org/en/js-ctypes/Using_js-ctypes/Declaring_types
         this.T.VECTOR_T = new ctypes.StructType("igVector",
             [
@@ -81,6 +81,8 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
     },
 
     _initFunctions:function(lib) {
+
+        /* graph */
         this.F.igraph_destroy = lib.declare('igraph_destroy', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t);
 
         // int empty(t *graph, integer_t n, bool_t directed);
@@ -91,6 +93,7 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
         this.F.igraph_full = lib.declare('igraph_full', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t,
             this.T.INTEGER_T, this.T.BOOL_T, this.T.BOOL_T);
 
+        /* games */
         // int growing_random_game(t *graph, integer_t n, integer_t m,
         // bool_t directed, bool_t citation);
         this.F.igraph_growing_random_game = lib.declare('igraph_growing_random_game', ctypes.default_abi, this.T.INTEGER_T,
@@ -118,9 +121,10 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
         this.F.igraph_create = lib.declare('igraph_create', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t,
             ctypes.voidptr_t, this.T.INTEGER_T, this.T.BOOL_T);
 
-        /* Vector related */
-
+        /* vector */
         this.F.igraph_vector_init = lib.declare('igraph_vector_init', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t, this.T.INTEGER_T);
+
+        this.F.igraph_vector_destroy = lib.declare('igraph_vector_destroy', ctypes.default_abi, ctypes.void_t, ctypes.voidptr_t);
 
         // igraph_real_t igraph_vector_e         (const igraph_vector_t* v, long int pos);
         this.F.igraph_vector_e = lib.declare('igraph_vector_e', ctypes.default_abi, this.T.REAL_T, ctypes.voidptr_t, this.T.INTEGER_T);
@@ -135,6 +139,8 @@ dojo.declare('bench.service.igraph.IGraphSupport', null, {
 
         //igraph_real_t igraph_vector_tail(const igraph_vector_t *v);
         this.F.igraph_vector_tail = lib.declare('igraph_vector_tail', ctypes.default_abi, this.T.REAL_T, ctypes.voidptr_t);
+
+        this.F.igraph_vector_size = lib.declare('igraph_vector_size', ctypes.default_abi, this.T.INTEGER_T, ctypes.voidptr_t);
 
     }
 });

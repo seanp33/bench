@@ -16,10 +16,10 @@ dojo.declare('bench.service.igraph.IGraphService', null, {
 
         // test this
         try {
-            this._logger.debug('..... igraph_full');
+            this._logger.debug('..... igraph play');
             let graph = new this.T.GRAPH_STRUCT_T();
 
-            let result = this.F.igraph_full(graph.address(), 5000000, true, true);
+            let result = this.F.igraph_empty(graph.address(), 1000, true);
             this._logger.debug('result: ' + result);
 
             let vcount = this.F.igraph_vcount(graph.address());
@@ -33,6 +33,16 @@ dojo.declare('bench.service.igraph.IGraphService', null, {
 
             result = this.F.igraph_destroy(graph.address());
             this._logger.debug('..... graph destroyed : ' + result);
+
+            let vector = new this.T.VECTOR_T();
+            this.F.igraph_vector_init(vector.address(), 20);
+            this.F.igraph_vector_set(vector.address(), 0, 223);
+
+            let size = this.F.igraph_vector_size(vector.address())
+            this._logger.debug('vector size: ' + size);
+            this._logger.debug('vector value at idx 0: ' + this.F.igraph_vector_e(vector.address(), 0));
+            this.F.igraph_vector_destroy(vector.address());
+            this._logger.debug('vector destroyed');
 
         } catch(e) {
             this._logger.error('error testing graph stuffs: ' + e);
