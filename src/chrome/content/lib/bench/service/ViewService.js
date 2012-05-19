@@ -14,19 +14,19 @@ dojo.declare('bench.service.ViewService', null, {
 
     createView:function(key, select) {
         this._store.open();
-        this._store.sql('CREATE VIEW IF NOT EXISTS ' + this._deriveViewName(key) + ' AS ' + select + ';');
+        this._store.sql('CREATE VIEW IF NOT EXISTS ' + this.prepareViewName(key) + ' AS ' + select + ';');
         this._store.close();
-        this._logger.debug('created view ' + this._deriveViewName(key));
+        this._logger.debug('created view ' + this.prepareViewName(key));
     },
 
     dropView:function(key) {
         this._store.open();
-        this._store.sql('DROP VIEW IF EXISTS ' + this._deriveViewName(key) + ';');
+        this._store.sql('DROP VIEW IF EXISTS ' + this.prepareViewName(key) + ';');
         this._store.close();
-        this._logger.debug('dropped view ' + this._deriveViewName(key));
+        this._logger.debug('dropped view ' + this.prepareViewName(key));
     },
 
-    _deriveViewName:function(key) {
+    prepareViewName:function(key) {
         return key.toUpperCase() + '_V';
     },
 

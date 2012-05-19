@@ -11,6 +11,7 @@ Cu.import("resource://gre/modules/ctypes.jsm");
 dojo.require('bench.App');
 dojo.require('bench.simulation.DataGenerator');
 dojo.require('bench.storage.ResultHandler');
+dojo.require('bench.util.xul.TreeTool');
 
 // initialize logging harness
 let formatter = new Log4Moz.BasicFormatter();
@@ -27,11 +28,28 @@ var Bench = {
         Bench.app.run();
     },
 
+    debugTreeTool:function() {
+        let store = Bench.app._store;
+        var config = {id:'entityDataTree', flex:1,rows:15, ref:'*', querytype:'storage', datasources:'profile:' + store.dbName, flags:'dont-build-content'}
+
+        var tt = new bench.util.xul.TreeTool(dojo.byId('_bDataPanel'), config);
+        tt.addColumn({label:'ID', sort:'?id', flex:1});
+        tt.addColumn({label:'Src Ip', sort:'?src', flex:1});
+        tt.addColumn({label:'Src Port', sort:'?src_port', flex:1});
+        tt.addColumn({label:'Dst Ip', sort:'?dst', flex:1});
+        tt.addColumn({label:'Dst Port', sort:'?dst_port', flex:1});
+
+        let viewService = Bench.app._viewService;
+        let view = viewService.prepareViewName('srcPortLt3000');
+        tt.bind('select * from ' + view + ';');
+        tt.rebuild();
+    },
+
     debugDescribe:function() {
         let store = Bench.app._store;
         store.open();
 
-        let handler = new bench.storage.ResultHandler(
+        store.describe('entities', new bench.storage.ResultHandler(
             function(aResultSet) {
                 for (let row = aResultSet.getNextRow();
                      row;
@@ -42,12 +60,11 @@ var Bench = {
 
                     Application.console.log('name: ' + name + ', type: ' + type);
                 }
-            });
-
-        store.describe('entities', handler);
+            })
+        )
     },
 
-    debugCreateView:function(){
+    debugCreateView:function() {
         let viewService = Bench.app._viewService;
         viewService.createView('srcPortLt3000', 'select * from entities where src_port < 3000');
     },

@@ -28,6 +28,7 @@
         <command id="cmdRunSimulation" oncommand="Bench.runSimulation();"/>
         <command id="cmdDebugDescribe" oncommand="Bench.debugDescribe();"/>
         <command id="cmdDebugCreateView" oncommand="Bench.debugCreateView();"/>
+        <command id="cmdDebugTreeTool" oncommand="Bench.debugTreeTool();"/>
     </commandset>
 
     <menupopup id="menu_ToolsPopup">
@@ -36,6 +37,7 @@
                 <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmdRunSimulation"/>
                 <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmdDebugDescribe"/>
                 <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;" command="cmdDebugCreateView"/>
+                <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;" command="cmdDebugTreeTool"/>
             </menupopup>
         </menu>
     </menupopup>
@@ -49,7 +51,7 @@
             </tabs>
             <tabpanels>
                 <tabpanel>
-                    <vbox flex="1">
+                    <vbox id="_bDataPanel" flex="1">
                         <toolbar id="test-toolbar">
                             <toolbarbutton accesskey="P" label="Plain"/>
                             <toolbarbutton accesskey="C" label="Checkbox" type="checkbox"/>
@@ -67,6 +69,8 @@
                             </toolbarbutton>
                         </toolbar>
 
+                        <!--<tree flex="1" rows="15" flags="dont-build-content">-->
+                        <!--
                         <tree flex="1" rows="15">
                             <treecols>
                                 <treecol label="ID" sort="?id" flex="1"/>
@@ -95,6 +99,7 @@
                                 </template>
                             </treechildren>
                         </tree>
+                        -->
                     </vbox>
                 </tabpanel>
                 <tabpanel>

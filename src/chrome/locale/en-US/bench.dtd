@@ -2,5 +2,6 @@
 <!ENTITY bench.Welcome "Click to begin the simulation">
 <!ENTITY bench.DebugDescribe "Describe (Debug)">
 <!ENTITY bench.DebugCreateView "Create View (Debug)">
+<!ENTITY bench.DebugTreeTool "Tree Tool (Debug)">
 <!ENTITY bench.Simulation "Simulation">
 <!ENTITY bench.Start "Start">
