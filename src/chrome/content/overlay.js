@@ -41,7 +41,8 @@ var Bench = {
 
         let viewService = Bench.app._viewService;
         let view = viewService.prepareViewName('srcPortLt3000');
-        tt.bind('select * from ' + view + ';');
+        //tt.bindTo('select * from ' + view + ';');
+        tt.bindTo('select * from entities limit 200000');
         tt.rebuild();
     },
 

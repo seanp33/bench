@@ -20,14 +20,34 @@ dojo.declare('bench.util.xul.TreeTool', null, {
         dojo.create('treecol', attrs, this._treecols);
     },
 
-    bind:function(sql) {
-
-        this._template = dojo.create('template', null, this._treechildren);
-        let query = dojo.create('query', {innerText:sql}, this._template);
+    bindTo:function(sql) {
+        /**
+         * <tree>
+         *     <treecols>
+         *       <treecol></treecol>
+         *     </treecols>
+         *     <template>
+         *         <query></query>
+         *         <action>
+         *             <treechildren>
+         *                 <treeitem>
+         *                     <treerow>
+         *                         <treecell></treecell>
+         *                     </treerow>
+         *                 </treeitem>
+         *             </treechildren>
+         *          </action>
+         *     </template>
+         * <tree>
+         *
+         */
+        this._template = dojo.create('template', null, this._tree);
+        let query = dojo.create('query', null, this._template);
+        query.textContent = sql;
         let action = dojo.create('action', null, this._template);
         this._treechildren = dojo.create('treechildren', null, action);
-        let treeitem = dojo.create('treeitem', {uri:'?'}, action);
-        let treerow = dojo.create('treerow', null, treeitem);
+        let treeitem = dojo.create('treeitem', {uri:'?'}, this._treechildren);
+        this._treerow = dojo.create('treerow', null, treeitem);
 
         let id = dojo.attr(this._tree, 'id');
         let self = this;
@@ -35,36 +55,12 @@ dojo.declare('bench.util.xul.TreeTool', null, {
             let sort = dojo.attr(node, 'sort');
             // this oddity, utilizing the column's sort as a label, is a bit of a cheat, but because a template's
             // label and column's sort are identical, we do this here
-            dojo.create('treecell', {label:sort}, treeitem);
+            dojo.create('treecell', {label:sort}, self._treerow);
         });
-    },
 
-    /**
-     * tree datasources="profile:messages.sqlite" ref="*"
-     querytype="storage" flags="dont-build-content">
-     <treecols>
-     <treecol id="subject" label="Subject" flex="3"/>
-     <treecol id="sender" label="Sender" flex="2"/>
-     <treecol id="date" label="Date" flex="1"/>
-     </treecols>
-     <template>
-     <query>
-     select subject, sender, date from messages
-     </query>
-     <action>
-     <treechildren>
-     <treeitem uri="?">
-     <treerow>
-     <treecell label="?subject"/>
-     <treecell label="?sender"/>
-     <treecell label="?date"/>
-     </treerow>
-     </treeitem>
-     </treechildren>
-     </action>
-     </template>
-     </tree>
-     */
+        var inHTML = (new XMLSerializer()).serializeToString(this._tree);
+        this._logger.debug(inHTML);
+    },
 
     rebuild:function() {
         this._tree.builder.rebuild();
