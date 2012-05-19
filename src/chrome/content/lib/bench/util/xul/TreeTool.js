@@ -41,25 +41,28 @@ dojo.declare('bench.util.xul.TreeTool', null, {
          * <tree>
          *
          */
-        this._template = dojo.create('template', null, this._tree);
-        let query = dojo.create('query', null, this._template);
-        query.textContent = sql;
-        let action = dojo.create('action', null, this._template);
-        this._treechildren = dojo.create('treechildren', null, action);
-        let treeitem = dojo.create('treeitem', {uri:'?'}, this._treechildren);
-        this._treerow = dojo.create('treerow', null, treeitem);
+        if (this._template == undefined) {
 
-        let id = dojo.attr(this._tree, 'id');
-        let self = this;
-        dojo.query('#' + id + ' > treecols > treecol').forEach(function(node, index, nodelist) {
-            let sort = dojo.attr(node, 'sort');
-            // this oddity, utilizing the column's sort as a label, is a bit of a cheat, but because a template's
-            // label and column's sort are identical, we do this here
-            dojo.create('treecell', {label:sort}, self._treerow);
-        });
+            this._template = dojo.create('template', null, this._tree);
+            this._query = dojo.create('query', null, this._template);
+            this._query.textContent = sql;
+            let action = dojo.create('action', null, this._template);
+            this._treechildren = dojo.create('treechildren', null, action);
+            let treeitem = dojo.create('treeitem', {uri:'?'}, this._treechildren);
+            this._treerow = dojo.create('treerow', null, treeitem);
 
-        var inHTML = (new XMLSerializer()).serializeToString(this._tree);
-        this._logger.debug(inHTML);
+            let id = dojo.attr(this._tree, 'id');
+            let self = this;
+            dojo.query('#' + id + ' > treecols > treecol').forEach(function(node, index, nodelist) {
+                let sort = dojo.attr(node, 'sort');
+                // this oddity, utilizing the column's sort as a label, is a bit of a cheat, but because a template's
+                // label and column's sort are identical, we do this here
+                dojo.create('treecell', {label:sort}, self._treerow);
+            });
+        } else {
+            // TODO: revisit
+            this._query.textContent = sql;
+        }
     },
 
     rebuild:function() {
