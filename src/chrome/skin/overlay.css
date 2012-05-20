@@ -1,22 +1,36 @@
-.welcomeMsg{
-    font-size:9pt;
-    font-weight:bold;
-    margin:0px;
-    padding:3px;
+.welcomeMsg {
+    font-size: 9pt;
+    font-weight: bold;
+    margin: 0px;
+    padding: 3px;
 }
 
-#_bMainPanelSplitter{
-    border-top:1px solid #c0c0c0;
+#_bMainPanelSplitter {
+    border-top: 1px solid #c0c0c0;
 }
 
-#_bMainPanel{
-    height:200px;
+#_bMainPanel {
+    height: 200px;
 }
 
-#_bTestProgress{
-    
+#_bTestProgress {
+
 }
 
-#_bRunTestBox{
-    
+#_bRunTestBox {
+
+}
+
+#test-toolbar {
+    -moz-appearance: none;
+}
+
+/* this is just a test*/
+#bench-toolbar-button {
+    list-style-image: url('chrome://bench/skin/icon-24px.png');
+}
+
+#bench-statusbar-icon {
+    width: 24px;
+    margin: 0px;
 }

@@ -31,16 +31,22 @@
         <command id="cmdDebugTreeTool" oncommand="Bench.debugTreeTool();"/>
     </commandset>
 
+
     <menupopup id="menu_ToolsPopup">
         <menu id="benchToolsMenu" label="&bench.Bench;">
             <menupopup id="benchToolsMenuPopup">
                 <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmdRunSimulation"/>
                 <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmdDebugDescribe"/>
-                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;" command="cmdDebugCreateView"/>
+                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;"
+                          command="cmdDebugCreateView"/>
                 <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;" command="cmdDebugTreeTool"/>
             </menupopup>
         </menu>
     </menupopup>
+
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="bench-toolbar-button" label="Zotero" tooltiptext="Toggle Bench Panel"/>
+    </toolbarpalette>
 
     <vbox id="appcontent">
         <splitter id="_bMainPanelSplitter" collapsed="false"/>
@@ -53,53 +59,13 @@
                 <tabpanel>
                     <vbox id="_bDataPanel" flex="1">
                         <toolbar id="test-toolbar">
-                            <toolbarbutton accesskey="P" label="Plain"/>
-                            <toolbarbutton accesskey="C" label="Checkbox" type="checkbox"/>
-                            <toolbarbutton accesskey="b" label="Menu-button" type="menu-button">
+                            <toolbarbutton id='dataViewTbBtn' accesskey="q" label="Data Views" type="menu-button">
                                 <menupopup>
-                                    <menuitem label="Menu item 1"/>
-                                    <menuitem label="Menu item 2"/>
-                                </menupopup>
-                            </toolbarbutton>
-                            <toolbarbutton accesskey="M" label="Menu" type="menu">
-                                <menupopup>
-                                    <menuitem label="Menu item 1"/>
-                                    <menuitem label="Menu item 2"/>
+                                    <menuitem label="All"/>
+                                    <menuitem label="All where srcPort less than 3000"/>
                                 </menupopup>
                             </toolbarbutton>
                         </toolbar>
-
-                        <!--<tree flex="1" rows="15" flags="dont-build-content">-->
-                        <!--
-                        <tree flex="1" rows="15">
-                            <treecols>
-                                <treecol label="ID" sort="?id" flex="1"/>
-                                <treecol label="Src" sort="?src" flex="1"/>
-                                <treecol label="Src Port" sort="?src_port" flex="1"/>
-                                <treecol label="Dst" sort="?dst" flex="1"/>
-                                <treecol label="Dst Port" sort="?dst_port" flex="1"/>
-                            </treecols>
-                            <treechildren id='treeData' datasources='profile:entityStore.sqlite' ref='*'
-                                          querytype='storage'>
-                                <template>
-                                    <query>
-                                        select id, src, src_port, dst, dst_port from entities
-                                    </query>
-                                    <action>
-                                        <treeitem uri="?">
-                                            <treerow>
-                                                <treecell label="?id"/>
-                                                <treecell label="?src"/>
-                                                <treecell label="?src_port"/>
-                                                <treecell label="?dst"/>
-                                                <treecell label="?dst_port"/>
-                                            </treerow>
-                                        </treeitem>
-                                    </action>
-                                </template>
-                            </treechildren>
-                        </tree>
-                        -->
                     </vbox>
                 </tabpanel>
                 <tabpanel>
@@ -117,4 +83,9 @@
             </tabpanels>
         </tabbox>
     </vbox>
+
+    <statusbar id='status-bar'>
+        <statusbarpanel id='bench-statusbar-icon' class='statusbarpanel-iconic'
+                        src='chrome://bench/skin/icon-24px.png'/>
+    </statusbar>
 </overlay>
