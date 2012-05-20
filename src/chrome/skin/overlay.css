@@ -5,12 +5,35 @@
     padding: 3px;
 }
 
+/*
+    common style bases
+*/
+
+.reset {
+    -moz-appearance: none;
+}
+
+.debug1 {
+    border: red solid 1px;
+}
+
+.debug2 {
+    border: green solid 1px;
+}
+
+.debug3 {
+    border: blue solid 1px;
+}
+
+.debug4 {
+    border: yellow solid 1px;
+}
+
 #_bMainPanelSplitter {
     border-top: 1px solid #c0c0c0;
 }
 
 #_bMainPanel {
-    height: 200px;
 }
 
 #_bTestProgress {
@@ -21,8 +44,18 @@
 
 }
 
-#test-toolbar {
-    -moz-appearance: none;
+/*
+    data panel related
+*/
+
+#tabpanels-data {
+    padding-top:1px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#tabpanel-data {
+    margin-left: 0px;
 }
 
 /* this is just a test*/

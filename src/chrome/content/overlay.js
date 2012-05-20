@@ -30,7 +30,7 @@ var Bench = {
 
     debugTreeTool:function() {
         let store = Bench.app._store;
-        var config = {id:'entityDataTree', flex:1,rows:15, ref:'*', querytype:'storage', datasources:'profile:' + store.dbName, flags:'dont-build-content'}
+        var config = {id:'entityDataTree', flex:1, align:'stretch' ,rows:20, ref:'*', querytype:'storage', datasources:'profile:' + store.dbName, flags:'dont-build-content'}
 
         var tt = new bench.util.xul.TreeTool(dojo.byId('_bDataPanel'), config);
         tt.addColumn({label:'ID', sort:'?id', flex:1});
