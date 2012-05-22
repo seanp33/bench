@@ -80,7 +80,7 @@ var Bench = {
                 handleCompletion:function(reason) {
                     if (reason == 0) {
                         self.selectSome();
-                        dojo.byId('treeData').builder.rebuild();
+                        dojo.byId('entityDataTree').builder.rebuild();
                     }
                 },
 

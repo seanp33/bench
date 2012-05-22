@@ -13,7 +13,7 @@ dojo.declare('bench.simulation.DataGenerator', null, {
 
     fill:function(recordCount) {
         this._logger.debug("...filling " + recordCount);
-        var worker = new ChromeWorker("chrome://bench/content/data-generator.js");
+        var worker = new ChromeWorker("chrome://bench/content/lib/bench/simulation/dataworker.js");
         this._logger.debug("....worker created");
 
         let self = this;

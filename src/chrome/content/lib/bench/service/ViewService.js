@@ -2,13 +2,13 @@ dojo.provide('bench.service.ViewService');
 
 dojo.require('bench.util.Util');
 
-dojo.declare('bench.service.ViewService', null, {
-    _views:{},
+    dojo.declare('bench.service.ViewService', null, {
+    views:{},
     _store:null,
 
     constructor:function(store) {
         this._store = store;
-        this._initViewsFromStore();
+        this.refreshViewsFromStore();
         this._initLogging();
     },
 
@@ -30,7 +30,7 @@ dojo.declare('bench.service.ViewService', null, {
         return key.toUpperCase() + '_V';
     },
 
-    _initViewsFromStore:function() {
+    refreshViewsFromStore:function() {
         let self = this;
         let handler = new bench.storage.ResultHandler(
             function(aResultSet) {
@@ -40,9 +40,9 @@ dojo.declare('bench.service.ViewService', null, {
 
                     let name = row.getResultByName('name');
                     let sql = row.getResultByName('sql');
-                    self._views[name] = sql;
+                    self.views[name] = sql;
 
-                    bench.util.Util.dump(self._views);
+                    bench.util.Util.dump(self.views);
                 }
             }
         );
