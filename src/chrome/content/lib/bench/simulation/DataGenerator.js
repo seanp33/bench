@@ -1,6 +1,8 @@
 dojo.provide('bench.simulation.DataGenerator');
 
-dojo.declare('bench.simulation.DataGenerator', null, {
+dojo.require('bench.Loggable');
+
+dojo.declare('bench.simulation.DataGenerator', bench.Loggable, {
 
     _store:null,
     _handler:null,
@@ -8,7 +10,6 @@ dojo.declare('bench.simulation.DataGenerator', null, {
     constructor:function(store, handler){
         this._store = store;
         this._handler = handler;
-        this._initLogging();
     },
 
     fill:function(recordCount) {
@@ -46,11 +47,5 @@ dojo.declare('bench.simulation.DataGenerator', null, {
         this._store.conn.executeAsync(stmts, count, this._handler);
 
         this._store.close(true);
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.simulation.DataGenerator');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
-
 });

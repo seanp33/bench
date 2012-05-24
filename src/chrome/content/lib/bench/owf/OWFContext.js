@@ -1,16 +1,15 @@
 dojo.provide('bench.owf.OWFContext');
 
-dojo.declare('bench.owf.OWFContext', null, {
+dojo.require('bench.Loggable');
+
+dojo.declare('bench.owf.OWFContext', bench.Loggable, {
 
     _ozone:null,
     _widgets:[],
     _gadgets:null,
     _pubsub:null,
 
-    constructor:function() {
-        this._initLogging();
-        this._logger.debug('constructed');
-    },
+    constructor:function() {},
 
     initialize:function(ozone, gadgets){
         this._ozone = ozone;
@@ -37,11 +36,6 @@ dojo.declare('bench.owf.OWFContext', null, {
 
     publish:function(channel, message) {
         this._pubsub.publish(channel, message);
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.owf.OWFContext');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
 
 });

@@ -7,8 +7,10 @@ dojo.require('bench.storage.SQLiteStore');
 dojo.require('bench.BrowserController');
 dojo.require('bench.owf.OWFContext');
 dojo.require('bench.util.Util');
+dojo.require('bench.ui.OverlayMediator');
+dojo.require('bench.Loggable');
 
-dojo.declare('bench.App', null, {
+dojo.declare('bench.App', bench.Loggable, {
     _context:{},
     _entityService:null,
     _viewService:null,
@@ -18,9 +20,10 @@ dojo.declare('bench.App', null, {
     _browserController:null,
 
     constructor:function() {
-        this._initLogging();
         this._initServices();
         this._initBrowserEnvironment();
+
+        new bench.ui.OverlayMediator();
     },
 
     run:function() {
@@ -44,11 +47,5 @@ dojo.declare('bench.App', null, {
     _register:function(obj) {
         this._context[obj.declaredClass] = obj;
         return obj;
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.App');
-        this._logger.level = Log4Moz.Level['Debug'];
-        this._logger.debug('bench.App constructed');
     }
 });

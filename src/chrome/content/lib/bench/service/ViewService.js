@@ -1,15 +1,15 @@
 dojo.provide('bench.service.ViewService');
 
 dojo.require('bench.util.Util');
+dojo.require('bench.Loggable');
 
-    dojo.declare('bench.service.ViewService', null, {
+dojo.declare('bench.service.ViewService', bench.Loggable, {
     views:{},
     _store:null,
 
     constructor:function(store) {
         this._store = store;
         this.refreshViewsFromStore();
-        this._initLogging();
     },
 
     createView:function(key, select) {
@@ -50,12 +50,8 @@ dojo.require('bench.util.Util');
         this._store.open();
         this._store.sql(bench.service.ViewService.SELECT_VIEWS, handler);
         this._store.close(true);
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.service.ViewService');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
+
 });
 
 bench.service.ViewService.SELECT_VIEWS = "SELECT name, sql FROM sqlite_master WHERE type = 'view';";

@@ -2,8 +2,9 @@ dojo.provide('bench.util.xul.TreeTool');
 
 dojo.require('bench.util.Util');
 dojo.require('bench.storage.SQLiteStore');
+dojo.require('bench.Loggable');
 
-dojo.declare('bench.util.xul.TreeTool', null, {
+dojo.declare('bench.util.xul.TreeTool', bench.Loggable, {
     _tree:null,
     _treecols:null,
     _treechildren:null,
@@ -11,7 +12,6 @@ dojo.declare('bench.util.xul.TreeTool', null, {
     _logger:null,
 
     constructor:function(parent, attrs) {
-        this._initLogging();
         this._tree = dojo.create('tree', attrs, parent);
         this._treecols = dojo.create('treecols', null, this._tree);
     },
@@ -77,10 +77,6 @@ dojo.declare('bench.util.xul.TreeTool', null, {
 
     getTree:function() {
         return this._tree;
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.util.xul.TreeTool');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
+
 });

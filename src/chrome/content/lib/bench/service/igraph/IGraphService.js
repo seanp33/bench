@@ -2,15 +2,15 @@ dojo.provide('bench.service.igraph.IGraphService');
 
 dojo.require('bench.util.Util');
 dojo.require('bench.service.igraph.IGraphSupport');
+dojo.require('bench.Loggable');
 
-dojo.declare('bench.service.igraph.IGraphService', null, {
+dojo.declare('bench.service.igraph.IGraphService', bench.Loggable, {
 
     lib:null,
     T:null,
     F:null,
 
     constructor:function() {
-        this._initLogging();
         this._initLib();
         this._initSupport();
 
@@ -76,10 +76,6 @@ dojo.declare('bench.service.igraph.IGraphService', null, {
         let igSupport = new bench.service.igraph.IGraphSupport(this.lib);
         this.T = igSupport.T;
         this.F = igSupport.F;
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.service.igraph.IGraphService');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
+
 });

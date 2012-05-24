@@ -1,9 +1,10 @@
 dojo.provide('bench.storage.ResultHandler');
 
-dojo.declare('bench.storage.ResultHandler', null, {
+dojo.require('bench.Loggable');
+
+dojo.declare('bench.storage.ResultHandler', bench.Loggable, {
 
     constructor:function(resultHandler, completionHandler, errorHandler){
-        this._initLogging();
         this.handleResult = resultHandler;
         this.handleCompletion = completionHandler || this._handleCompletion;
         this.handleError = errorHandler || this._handleError;
@@ -28,10 +29,5 @@ dojo.declare('bench.storage.ResultHandler', null, {
 
     _handleError:function(error) {
         this._logger.error(error);
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.storage.ResultHandler');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
 });

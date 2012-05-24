@@ -1,16 +1,15 @@
 dojo.provide('bench.BrowserController');
 
 dojo.require('bench.owf.Widget');
-
 dojo.require('bench.util.Util');
+dojo.require('bench.Loggable');
 
-dojo.declare('bench.BrowserController', null, {
+dojo.declare('bench.BrowserController', bench.Loggable, {
 
     _owfContext:null,
 
     constructor:function(owfContext) {
         this._owfContext = owfContext;
-        this._initLogging();
         this._initBrowserEventHandlers();
     },
 
@@ -70,10 +69,5 @@ dojo.declare('bench.BrowserController', null, {
         } else {
             this._logger.error("appcontent not here yall");
         }
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.BrowserController');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
 });

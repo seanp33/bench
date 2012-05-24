@@ -1,18 +1,21 @@
 dojo.provide('bench.storage.SQLiteStore');
 
+dojo.require('bench.storage.QueryAssembler');
 dojo.require('bench.util.Util');
+dojo.require('bench.Loggable');
 
-dojo.declare('bench.storage.SQLiteStore', null, {
+dojo.declare('bench.storage.SQLiteStore', bench.Loggable, {
 
     dbName:null,
     file:null,
     conn:null,
+    _assembler:null,
     _opened:false,
     _logger:null,
 
     constructor:function(dbName) {
-        this._initLogging();
         this.dbName = dbName;
+        this._assembler = new bench.storage.QueryAssembler();
         this._logger.debug('bench.storage.SQLiteStore constructed for <' + this.dbName + '>');
     },
 
@@ -46,18 +49,18 @@ dojo.declare('bench.storage.SQLiteStore', null, {
 
     insert:function(table, obj, idCallback) {
         try {
-            this.sql(this.assembleInsert(table, obj));
+            this.sql(this._assembler.assembleInsert(table, obj));
         } catch(e) {
             this._logger.error(e);
         }
     },
 
     remove:function(table, obj) {
-        this.sql(this.assembleDelete(table, obj));
+        this.sql(this._assembler.assembleDelete(table, obj));
     },
 
     update:function(table, idField, obj) {
-        this.sql(this.assembleUpdate(table, idField, obj));
+        this.sql(this._assembler.assembleUpdate(table, idField, obj));
     },
 
     describe:function(table, handler) {
@@ -85,66 +88,5 @@ dojo.declare('bench.storage.SQLiteStore', null, {
         }
 
         return stmts;
-    },
-
-    assembleSelect:function(table, obj) {
-        let q = "SELECT * FROM " + table + ' WHERE ';
-        for (let p in obj) {
-            q += p + '=' + this.prepValue(obj[p]) + ' AND ';
-        }
-        q = q.substring(0, q.length - 5) + ';';
-
-        return q;
-    },
-
-    assembleInsert:function(table, obj) {
-        let q = "INSERT into " + table;
-        let columns = ' (';
-        let values = ' VALUES(';
-        for (let p in obj) {
-            columns += p + ',';
-            values += this.prepValue(obj[p]) + ',';
-        }
-
-        columns = columns.substring(0, columns.length - 1) + ')';
-        values = values.substring(0, values.length - 1) + ')';
-
-        q += columns + values + ';';
-        return q;
-    },
-
-    assembleDelete:function(table, obj) {
-        let q = "DELETE FROM " + table + ' WHERE ';
-        for (let p in obj) {
-            q += p + '=' + this.prepValue(obj[p]) + ' AND ';
-        }
-        q = q.substring(0, q.length - 5) + ';';
-
-        return q;
-    },
-
-    assembleUpdate:function(table, idField, obj) {
-        let q = "UPDATE " + table + ' SET ';
-        for (let p in obj) {
-            if (p != idField) {
-                q += p + '=' + this.prepValue(obj[p]) + ', ';
-            }
-        }
-        q = q.substring(0, q.length - 2) + ' WHERE ' + idField + '=' + this.prepValue(obj[idField]) + ';';
-
-        return q;
-    },
-
-    prepValue:function(val) {
-        if (typeof val === 'string') {
-            val = "'" + val + "'";
-        }
-
-        return val;
-    },
-
-    _initLogging:function() {
-        this._logger = Log4Moz.repository.getLogger('bench.store.SQLiteStore');
-        this._logger.level = Log4Moz.Level['Debug'];
     }
 });
