@@ -21,26 +21,25 @@
             baseUrl:"chrome://bench/content/lib/dojo/"
         }
     </script>
+
     <script type="application/x-javascript" src="chrome://bench/content/lib/dojo/dojo.js"/>
+
     <script type="application/x-javascript" src="chrome://bench/content/overlay.js"/>
 
     <commandset id="mainCommandSet">
-        <command id="cmdRunSimulation" oncommand="Bench.runSimulation();"/>
-        <command id="cmdDebugDescribe" oncommand="Bench.debugDescribe();"/>
-        <command id="cmdDebugCreateView" oncommand="Bench.debugCreateView();"/>
-        <command id="cmdDebugTreeTool" oncommand="Bench.debugTreeTool();"/>
-        <command id="cmdStartNewWizard" oncommand="Bench.debugTreeTool();"/>
+        <command id="cmd.bench.runSimulation" oncommand="Bench.runSimulation();"/>
+        <command id="cmd.bench.debugDescribe" oncommand="Bench.debugDescribe();"/>
+        <command id="cmd.bench.debugCreateView" oncommand="Bench.debugCreateView();"/>
+        <command id="cmd.bench.debugTreeTool" oncommand="Bench.debugTreeTool();"/>
     </commandset>
-
 
     <menupopup id="menu_ToolsPopup">
         <menu id="benchToolsMenu" label="&bench.Bench;">
             <menupopup id="benchToolsMenuPopup">
-                <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmdRunSimulation"/>
-                <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmdDebugDescribe"/>
-                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;"
-                          command="cmdDebugCreateView"/>
-                <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;" command="cmdDebugTreeTool"/>
+                <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmd.bench.runSimulation"/>
+                <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmd.bench.debugDescribe"/>
+                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;"command="cmd.bench.debugCreateView"/>
+                <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;" command="cmd.bench.debugTreeTool"/>
             </menupopup>
         </menu>
     </menupopup>
@@ -77,7 +76,7 @@
                         <groupbox>
                             <caption label="&bench.Simulation;"/>
                             <hbox id="_bRunTestBox" pack='start' align='center'>
-                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmdRunSimulation'/>
+                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd.bench.runSimulation'/>
                                 <progressmeter id="_bTestProgress" mode="undetermined" hidden='true'/>
                             </hbox>
                         </groupbox>
