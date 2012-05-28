@@ -41,8 +41,6 @@ dojo.declare('bench.service.ViewService', bench.Loggable, {
                     let name = row.getResultByName('name');
                     let sql = row.getResultByName('sql');
                     self.views[name] = sql;
-
-                    bench.util.Util.dump(self.views);
                 }
             }
         );

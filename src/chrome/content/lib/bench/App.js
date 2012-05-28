@@ -6,9 +6,10 @@ dojo.require('bench.service.igraph.IGraphService');
 dojo.require('bench.storage.SQLiteStore');
 dojo.require('bench.BrowserController');
 dojo.require('bench.owf.OWFContext');
+dojo.require('bench.Loggable');
 dojo.require('bench.util.Util');
 dojo.require('bench.ui.OverlayMediator');
-dojo.require('bench.Loggable');
+dojo.require('bench.ui.DemoMediator');
 
 dojo.declare('bench.App', bench.Loggable, {
     _context:{},
@@ -18,16 +19,31 @@ dojo.declare('bench.App', bench.Loggable, {
     _store:null,
     _owfContext:null,
     _browserController:null,
+    _overlayMediator:null,
+    _demoMediator:null,
 
     constructor:function() {
         this._initServices();
         this._initBrowserEnvironment();
-
-        new bench.ui.OverlayMediator();
+        this._initMediators();
     },
 
     run:function() {
         this._logger.debug('bench.App#run');
+    },
+
+    processCommand:function(cmd) {
+        window.focus();
+        try {
+            var disp = window.document.commandDispatcher;
+            var ctrl = disp.getControllerForCommand(cmd);
+            ctrl.doCommand(cmd);
+        } catch (e) {
+            let msg = 'unknown command <' + cmd + '>';
+            this._logger.warn(msg);
+            throw (msg);
+            window.focus();
+        }
     },
 
     _initServices:function() {
@@ -42,6 +58,11 @@ dojo.declare('bench.App', bench.Loggable, {
         this._logger.debug('initializing browser env');
         this._owfContext = this._register(new bench.owf.OWFContext());
         this._browserController = this._register(new bench.BrowserController(this._owfContext));
+    },
+
+    _initMediators:function(){
+        this._overlayMediator = new bench.ui.OverlayMediator(window);
+        this._demoMediator = new bench.ui.DemoMediator(window, this._store);
     },
 
     _register:function(obj) {

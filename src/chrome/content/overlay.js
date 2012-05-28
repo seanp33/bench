@@ -46,25 +46,6 @@ var Bench = {
         tt.rebuild();
     },
 
-    debugDescribe:function() {
-        let store = Bench.app._store;
-        store.open();
-
-        store.describe('entities', new bench.storage.ResultHandler(
-            function(aResultSet) {
-                for (let row = aResultSet.getNextRow();
-                     row;
-                     row = aResultSet.getNextRow()) {
-
-                    let name = row.getResultByName('name');
-                    let type = row.getResultByName('type');
-
-                    Application.console.log('name: ' + name + ', type: ' + type);
-                }
-            })
-        )
-    },
-
     debugCreateView:function() {
         let viewService = Bench.app._viewService;
         viewService.createView('srcPortLt3000', 'select * from entities where src_port < 3000');

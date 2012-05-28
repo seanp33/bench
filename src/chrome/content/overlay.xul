@@ -27,19 +27,23 @@
     <script type="application/x-javascript" src="chrome://bench/content/overlay.js"/>
 
     <commandset id="mainCommandSet">
-        <command id="cmd.bench.runSimulation" oncommand="Bench.runSimulation();"/>
-        <command id="cmd.bench.debugDescribe" oncommand="Bench.debugDescribe();"/>
-        <command id="cmd.bench.debugCreateView" oncommand="Bench.debugCreateView();"/>
-        <command id="cmd.bench.debugTreeTool" oncommand="Bench.debugTreeTool();"/>
+        <command id="cmd_runSimulation" oncommand="Bench.runSimulation();"/>
+        <command id="cmd_demoDescribeTable" oncommand="Bench.app.processCommand(this.id);"/>
+        <command id="cmd_debugCreateView" oncommand="Bench.debugCreateView();"/>
+        <command id="cmd_debugTreeTool" oncommand="Bench.debugTreeTool();"/>
+        <command id="cmd_doThatSht" oncommand="Bench.app.processCommand(this.id);"/>
     </commandset>
 
     <menupopup id="menu_ToolsPopup">
         <menu id="benchToolsMenu" label="&bench.Bench;">
             <menupopup id="benchToolsMenuPopup">
-                <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmd.bench.runSimulation"/>
-                <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;" command="cmd.bench.debugDescribe"/>
-                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;"command="cmd.bench.debugCreateView"/>
-                <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;" command="cmd.bench.debugTreeTool"/>
+                <menuitem id="benchRunSimulationMenuItem" label="&bench.Simulation;" command="cmd_runSimulation"/>
+                <menuitem id="benchDebugDescribeMenuItem" label="&bench.DebugDescribe;"
+                          command="cmd_demoDescribeTable"/>
+                <menuitem id="benchDebugCreateViewMenuItem" label="&bench.DebugCreateView;"
+                          command="cmd_debugCreateView"/>
+                <menuitem id="benchDebugTreeToolMenuItem" label="&bench.DebugTreeTool;"
+                          command="cmd_debugTreeTool"/>
             </menupopup>
         </menu>
     </menupopup>
@@ -50,6 +54,7 @@
 
     <vbox id="appcontent">
         <splitter id="_bMainPanelSplitter" collapsed="false"/>
+        <button id='testBtn' label="Test the dispatch" command="cmd_doThatSht"/>
         <tabbox id="_bTabbox" selectedIndex="0">
             <tabs>
                 <tab label="Data"/>
@@ -61,7 +66,7 @@
                         <toolbar id='toolbar-data'>
                             <menu id="menu-file" label="File" class="reset">
                                 <menupopup id="mp-file">
-                                    <menuitem id="mi-new" label="New" command="cmdStartNewWizard"/>
+                                    <menuitem id="mi-new" label="New" command="cmd_StartNewWizard"/>
                                     <menuitem id="mi-open" label="Open"/>
                                     <menuitem id="mi-save" label="Save"/>
                                     <menuitem id="mi-save-as" label="Save As"/>
@@ -76,7 +81,7 @@
                         <groupbox>
                             <caption label="&bench.Simulation;"/>
                             <hbox id="_bRunTestBox" pack='start' align='center'>
-                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd.bench.runSimulation'/>
+                                <button id="_bRunTestsBtn" label='&bench.Start;' command='cmd_runSimulation'/>
                                 <progressmeter id="_bTestProgress" mode="undetermined" hidden='true'/>
                             </hbox>
                         </groupbox>

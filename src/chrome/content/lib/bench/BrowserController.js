@@ -13,13 +13,9 @@ dojo.declare('bench.BrowserController', bench.Loggable, {
         this._initBrowserEventHandlers();
     },
 
-    _onBrowserLoad:function(event) {
-        this._logger.debug('onBrowserLoad');
-    },
+    _onBrowserLoad:function(event) {},
 
-    _onBrowserUnload:function(event) {
-        this._logger.debug('onBrowserUnload');
-    },
+    _onBrowserUnload:function(event) {},
 
     _onDOMFrameContentLoaded:function(event) {
         this._logger.debug('bench.BrowserController#onDOMFrameContentLoaded');
@@ -45,29 +41,30 @@ dojo.declare('bench.BrowserController', bench.Loggable, {
     },
 
     _initBrowserEventHandlers:function() {
-        if(document == undefined){
-            throw new Error('Document is undefined. Unable to initialize browser event handlers');
+        if (document == undefined) {
+            throw new Error('document is undefined. Unable to initialize browser event handlers');
         }
 
-        let appcontent = document.getElementById("appcontent");
         let self = this;
+
+        let appcontent = dojo.byId('appcontent');
         if (appcontent != undefined) {
 
             // TODO: establish a better way to observe these events...formal moz observer?
-            appcontent.addEventListener("load", function(event){
+            appcontent.addEventListener('load', function(event) {
                 self._onBrowserLoad.call(self, event);
             }, true);
 
-            appcontent.addEventListener("unload", function(event){
+            appcontent.addEventListener('unload', function(event) {
                 self._onBrowserUnload.call(self, event);
             }, true);
 
-            appcontent.addEventListener("DOMFrameContentLoaded", function(event){
+            appcontent.addEventListener('DOMFrameContentLoaded', function(event) {
                 self._onDOMFrameContentLoaded.call(self, event);
             }, true);
 
         } else {
-            this._logger.error("appcontent not here yall");
+            this._logger.error('Element with id \'appcontent\' undefined. Unable to initialize browser event handlers');
         }
     }
 });
