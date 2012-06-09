@@ -29,6 +29,8 @@ dojo.declare('bench.ui.Mediator', bench.Loggable, {
         let command = this[cmd];
         if (command != undefined) {
             command.call(this);
+        }else{
+            logger.error('why is cmd <' + cmd + '> undefined');
         }
     },
 

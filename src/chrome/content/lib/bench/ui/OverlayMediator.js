@@ -1,5 +1,7 @@
 dojo.provide('bench.ui.OverlayMediator');
+
 dojo.require('bench.ui.Mediator');
+dojo.require('bench.util.Util');
 
 /**
    Mediator responsible for interfacing the overlay.xul and the services

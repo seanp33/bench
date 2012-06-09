@@ -1,5 +1,8 @@
 dojo.provide('bench.ui.DemoMediator');
+
 dojo.require('bench.ui.Mediator');
+
+dojo.require('bench.util.Util');
 
 /**
  A collection of handlers to assist as we build out the bench
@@ -8,17 +11,23 @@ dojo.declare('bench.ui.DemoMediator', bench.ui.Mediator, {
 
     _store:null,
 
-    constructor:function(view, store) {
-        //this._view = view;
-        this._store = store;
+    constructor:function() {
         this._initCommands();
+    },
+
+    setStore:function(store){
+        this._store = store;
     },
 
     _initCommands:function() {
         this.commands['cmd_demoDescribeTable'] = this.cmd_demoDescribeTable;
     },
 
-    cmd_demoDescribeTable:function() {
+    cmd_demoDescribeTable:function(){
+        this._logger.debug('cmd_demoDescribeTable');
+    },
+
+    cmd_demoDescribeTable_ignore:function() {
         this._logger.debug('cmd_demoDescribeTable');
         let self = this;
         this._store.open();

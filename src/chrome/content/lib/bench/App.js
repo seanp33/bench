@@ -37,6 +37,8 @@ dojo.declare('bench.App', bench.Loggable, {
         try {
             var disp = window.document.commandDispatcher;
             var ctrl = disp.getControllerForCommand(cmd);
+            this._logger.debug('obtained controller for cmd <' + cmd + '>');
+            bench.util.Util.dump(ctrl);
             ctrl.doCommand(cmd);
         } catch (e) {
             let msg = 'unknown command <' + cmd + '>';
@@ -61,8 +63,9 @@ dojo.declare('bench.App', bench.Loggable, {
     },
 
     _initMediators:function(){
+        this._demoMediator = new bench.ui.DemoMediator(window);
         this._overlayMediator = new bench.ui.OverlayMediator(window);
-        this._demoMediator = new bench.ui.DemoMediator(window, this._store);
+        this._demoMediator.setStore(this._store);
     },
 
     _register:function(obj) {
