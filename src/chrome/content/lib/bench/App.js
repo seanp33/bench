@@ -19,8 +19,7 @@ dojo.declare('bench.App', bench.Loggable, {
     _store:null,
     _owfContext:null,
     _browserController:null,
-    _overlayMediator:null,
-    _demoMediator:null,
+    _mediators:[],
 
     constructor:function() {
         this._initServices();
@@ -33,19 +32,9 @@ dojo.declare('bench.App', bench.Loggable, {
     },
 
     processCommand:function(cmd) {
-        window.focus();
-        try {
-            var disp = window.document.commandDispatcher;
-            var ctrl = disp.getControllerForCommand(cmd);
-            this._logger.debug('obtained controller for cmd <' + cmd + '>');
-            bench.util.Util.dump(ctrl);
-            ctrl.doCommand(cmd);
-        } catch (e) {
-            let msg = 'unknown command <' + cmd + '>';
-            this._logger.warn(msg);
-            throw (msg);
-            window.focus();
-        }
+        dojo.forEach(this._mediators, function(mediator, i) {
+            if(mediator.handles(cmd)) mediator.perform(cmd) ;
+        });
     },
 
     _initServices:function() {
@@ -62,10 +51,9 @@ dojo.declare('bench.App', bench.Loggable, {
         this._browserController = this._register(new bench.BrowserController(this._owfContext));
     },
 
-    _initMediators:function(){
-        this._demoMediator = new bench.ui.DemoMediator(window);
-        this._overlayMediator = new bench.ui.OverlayMediator(window);
-        this._demoMediator.setStore(this._store);
+    _initMediators:function() {
+        this._mediators.push(new bench.ui.OverlayMediator());
+        this._mediators.push(new bench.ui.DemoMediator(this._store));
     },
 
     _register:function(obj) {

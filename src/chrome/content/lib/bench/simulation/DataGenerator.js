@@ -46,6 +46,6 @@ dojo.declare('bench.simulation.DataGenerator', bench.Loggable, {
 
         this._store.conn.executeAsync(stmts, count, this._handler);
 
-        this._store.close(true);
+        this._store.close();
     }
 });

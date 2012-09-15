@@ -17,7 +17,7 @@ dojo.declare('bench.ui.OverlayMediator', bench.ui.Mediator, {
     },
 
     cmd_doThatSht:function() {
-        this._logger.debug('ok, now I\'m doing that sht!');
+        this._logger.debug('ok, now I\'m doing that sht! from OverlayMediator');
     }
 
 });

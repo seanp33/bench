@@ -34,9 +34,9 @@ dojo.declare('bench.storage.SQLiteStore', bench.Loggable, {
         }
     },
 
-    close:function(async) {
+    close:function(sync) {
         if (this.conn && this._opened) {
-            async ? this.conn.asyncClose() : this.conn.close();
+            sync ? this.conn.close() : this.conn.asyncClose();
             this._opened = false;
         } else {
             throw new Error('No open database connection for <' + this.dbName + '> was found. has it been opened?');

@@ -102,7 +102,7 @@ var Bench = {
             handleCompletion:function(reason) {
                 Application.console.log('Finish: ' + new Date());
                 let store = Bench.app._store;
-                store.close(true);
+                store.close();
                 dojo.byId('_bTestProgress').setAttribute('hidden', true);
             }
         });

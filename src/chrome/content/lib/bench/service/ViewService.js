@@ -47,7 +47,7 @@ dojo.declare('bench.service.ViewService', bench.Loggable, {
 
         this._store.open();
         this._store.sql(bench.service.ViewService.SELECT_VIEWS, handler);
-        this._store.close(true);
+        this._store.close();
     }
 
 });

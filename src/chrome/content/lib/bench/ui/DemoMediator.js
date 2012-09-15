@@ -11,23 +11,16 @@ dojo.declare('bench.ui.DemoMediator', bench.ui.Mediator, {
 
     _store:null,
 
-    constructor:function() {
-        this._initCommands();
-    },
-
-    setStore:function(store){
+    constructor:function(store) {
         this._store = store;
+        this._initCommands();
     },
 
     _initCommands:function() {
         this.commands['cmd_demoDescribeTable'] = this.cmd_demoDescribeTable;
     },
 
-    cmd_demoDescribeTable:function(){
-        this._logger.debug('cmd_demoDescribeTable');
-    },
-
-    cmd_demoDescribeTable_ignore:function() {
+    cmd_demoDescribeTable:function() {
         this._logger.debug('cmd_demoDescribeTable');
         let self = this;
         this._store.open();
@@ -41,9 +34,9 @@ dojo.declare('bench.ui.DemoMediator', bench.ui.Mediator, {
                     let type = row.getResultByName('type');
 
                     Application.console.log('name: ' + name + ', type: ' + type);
-
-                    self._store.close();
                 }
+
+                self._store.close();
             })
         )
     }
