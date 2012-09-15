@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>This is a test</title>
+    <style type="text/css">
+            /* sigma.js context : */
+        .sigma-parent {
+            position: relative;
+            border-radius: 4px;
+            -moz-border-radius: 4px;
+            -webkit-border-radius: 4px;
+            background: #fff;
+            height: 500px;
+        }
+
+        .sigma-expand {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
+    <script language="javascript" type="text/javascript"
+            src="lib/sigma/sigma-min.js"></script>
+    <script language="javascript" type="text/javascript">
+        var sigInst = null;
+        function onLoad() {
+            sigInst = sigma.init(document.getElementById('sigma-example'))
+                    .drawingProperties({
+                        defaultLabelColor: '#fff',
+                        defaultLabelSize: 14,
+                        defaultLabelBGColor: '#fff',
+                        defaultLabelHoverColor: '#000',
+                        labelThreshold: 6,
+                        defaultEdgeType: 'curve'
+                    }).graphProperties({
+                        minNodeSize: 0.5,
+                        maxNodeSize: 5,
+                        minEdgeSize: 1,
+                        maxEdgeSize: 1
+                    }).mouseProperties({
+                        maxRatio: 4
+                    });
+        }
+
+        function addNode(id) {
+            sigInst.addNode(id, {'label': id});
+            sigInst.draw();
+        }
+
+        function addEdge(src, dst) {
+            sigInst.addEdge(src, dst);
+            sigInst.draw();
+        }
+    </script>
+</head>
+<body onload="onLoad()">
+<input type="button" value="add node hello" onclick="addNode('hello')"/>
+<input type="button" value="add node world" onclick="addNode('world')"/>
+<input type="button" value="add edge" onclick="addNode('hellow', 'world')"/>
+
+<div class="span12 sigma-parent" id="sigma-example-parent">
+    <div class="sigma-expand" id="sigma-example"></div>
+</div>
+</body>
+</html>
