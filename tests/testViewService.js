@@ -12,18 +12,10 @@ var document = window.document;
 var navigator = window.navigator;
 
 // and prepare a scope to satisfy overlay dependencies
-var UNIT = {
+var UNIT= {
     window:window,
     document:document,
     navigator:navigator
-}
-
-window.djConfig = {
-    parseOnLoad:false,
-    scopeMap:['dojo','dojo'],
-    modulePaths: {
-        "bench": "."
-    }
 }
 
 var setupModule = function(module) {
@@ -34,18 +26,17 @@ var setupModule = function(module) {
     js_loader.loadSubScript('chrome://bench/content/lib/dojo/dojo.js', UNIT);
     js_loader.loadSubScript('chrome://bench/content/lib/bench/Loggable.js', UNIT);
     js_loader.loadSubScript('chrome://bench/content/lib/bench/SmokeTest.js', this);
-    js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/QueryAssembler.js', UNIT);
+    //js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/SQLiteStore.js', UNIT);
+    //js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/ResultHandler.js', UNIT);
+    js_loader.loadSubScript('chrome://bench/content/lib/bench/service/ViewService.js', UNIT);
 }
 
 function testSmokeTest() {
-    JUM.assertEquals('hello', SmokeTest.echo('hello'));
+    //JUM.assertEquals('hello', SmokeTest.echo('hello'));
 }
 
 
 function testPrepValue() {
-    let assembler = new bench.storage.QueryAssembler();
-
-    JUM.assertEquals("'Test'", assembler.prepValue("Test"));
-    JUM.assertEquals(1, assembler.prepValue(1));
-    JUM.assertEquals(true, assembler.prepValue(true));
+    //let viewService = new bench.service.ViewService(null);
+    //JUM.assertEquals('SOME_VIEW_V', viewService.prepareViewName('SOME_VIEW'));
 }

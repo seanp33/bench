@@ -1,6 +1,5 @@
 dojo.provide('bench.service.ViewService');
 
-dojo.require('bench.util.Util');
 dojo.require('bench.Loggable');
 
 dojo.declare('bench.service.ViewService', bench.Loggable, {
