@@ -19,39 +19,28 @@ var js_loader = Cc['@mozilla.org/moz/jssubscript-loader;1'].getService(Ci.mozIJS
 var UNIT = {
     window:window,
     document:document,
-    navigator:navigator,
-    djConfig:{
-        parseOnLoad:false,
-        scopeMap:['dojo','dojo'],
-        modulePaths: {
-            "bench": "."
-        }
-    }
+    navigator:navigator
 }
 
 var setupModule = function(module) {
     module.controller = mozmill.getBrowserController();
-
-    //js_loader.loadSubScript('chrome://bench/content/lib/dojo/dojo.js', UNIT);
-    //js_loader.loadSubScript('chrome://bench/content/lib/bench/Loggable.js', UNIT);
-    // js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/QueryAssembler.js', UNIT);
+    Cu.import("resource://bench.modules/log4moz.jsm");
+    js_loader.loadSubScript('chrome://bench/content/lib/dojo/dojo.js', UNIT);
+    js_loader.loadSubScript('chrome://bench/content/lib/bench/Loggable.js', UNIT);
+    js_loader.loadSubScript('chrome://bench/content/lib/bench/SmokeTest.js', this);
+    js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/QueryAssembler.js', UNIT);
 }
 
-function testFoo(){
-    js_loader.loadSubScript('chrome://bench/content/lib/bench/SmokeTest.js', this);
+function testSmokeTest() {
     JUM.assertEquals('hello', SmokeTest.echo('hello'));
 }
 
-/*
-function testPrepValue() {
-    Components.utils.import('chrome://bench/content/lib/dojo/dojo.js', this);
-    dojo.require('bench.storage.QueryAssembler');
 
+function testPrepValue() {
     let assembler = new bench.storage.QueryAssembler();
 
     JUM.assertEquals("'Test'", assembler.prepValue("Test"));
-    JUM.assertEquals(1, prepValue(1));
-    JUM.assertEquals(true, prepValue(true));
+    JUM.assertEquals(1, assembler.prepValue(1));
+    JUM.assertEquals(true, assembler.prepValue(true));
     JUM.assertEquals(true, true);
 }
-*/

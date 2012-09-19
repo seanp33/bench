@@ -24,7 +24,7 @@
             _5[_7[0]] = _7[1];
             _6[_7[1]] = _7[0];
         }
-        //eval(_2 + "dojo._scopeArgs = [" + _4 + "];");
+        eval(_2 + "dojo._scopeArgs = [" + _4 + "];");
         dojo._scopePrefixArgs = _3;
         dojo._scopePrefix = "(function(" + _3 + "){";
         dojo._scopeSuffix = "})(" + _4 + ")";
