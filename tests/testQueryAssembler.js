@@ -26,28 +26,32 @@ var UNIT = {
         modulePaths: {
             "bench": "."
         }
-    },
-    dojo:{}
+    }
 }
 
 var setupModule = function(module) {
     module.controller = mozmill.getBrowserController();
-    js_loader.loadSubScript('chrome://bench/content/lib/dojo/dojo.js', UNIT);
-    js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/QueryAssembler.js', UNIT);
 
+    //js_loader.loadSubScript('chrome://bench/content/lib/dojo/dojo.js', UNIT);
+    //js_loader.loadSubScript('chrome://bench/content/lib/bench/Loggable.js', UNIT);
+    // js_loader.loadSubScript('chrome://bench/content/lib/bench/storage/QueryAssembler.js', UNIT);
 }
 
-var teardownModule = function(module) {
+function testFoo(){
+    js_loader.loadSubScript('chrome://bench/content/lib/bench/SmokeTest.js', this);
+    JUM.assertEquals('hello', SmokeTest.echo('hello'));
 }
 
+/*
 function testPrepValue() {
-    UNIT.dojo.require('bench.storage.QueryAssembler');
+    Components.utils.import('chrome://bench/content/lib/dojo/dojo.js', this);
+    dojo.require('bench.storage.QueryAssembler');
 
-    let assembler = new UNIT.bench.storage.QueryAssembler();
+    let assembler = new bench.storage.QueryAssembler();
 
     JUM.assertEquals("'Test'", assembler.prepValue("Test"));
-    //JUM.assertEquals(1, prepValue(1));
-    //JUM.assertEquals(true, prepValue(true));
+    JUM.assertEquals(1, prepValue(1));
+    JUM.assertEquals(true, prepValue(true));
     JUM.assertEquals(true, true);
-
 }
+*/
