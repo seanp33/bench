@@ -22,8 +22,9 @@
             left: 0;
         }
     </style>
-    <script language="javascript" type="text/javascript"
-            src="lib/sigma/sigma-min.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/sigma/sigma-min.js"></script>
+    <script language="javascript" type="text/javascript" src="graph.js"></script>
+    <!--
     <script language="javascript" type="text/javascript">
         var sigInst = null;
         function onLoad() {
@@ -45,8 +46,8 @@
                     });
         }
 
-        function addNode(id) {
-            sigInst.addNode(id, {'label': id});
+        function addNode(node) {
+            sigInst.addNode(node.id, node);
             sigInst.draw();
         }
 
@@ -54,7 +55,9 @@
             sigInst.addEdge(src, dst);
             sigInst.draw();
         }
+
     </script>
+    -->
 </head>
 <body onload="onLoad()">
 <input type="button" value="add node hello" onclick="addNode('hello')"/>

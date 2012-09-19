@@ -6,6 +6,7 @@ var Cu = Components.utils;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 Cu.import("resource://bench.modules/log4moz.jsm");
+Cu.import("resource://bench.modules/Context.jsm");
 Cu.import("resource://gre/modules/ctypes.jsm");
 
 dojo.require('bench.App');
@@ -24,7 +25,7 @@ root.addAppender(capp);
 var Bench = {
 
     init:function() {
-        Bench.app = new bench.App();
+        Bench.app = new bench.App(Context);
         Bench.app.run();
     },
 

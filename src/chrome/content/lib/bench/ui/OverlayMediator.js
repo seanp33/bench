@@ -17,7 +17,7 @@ dojo.declare('bench.ui.OverlayMediator', bench.ui.Mediator, {
     },
 
     cmd_doThatSht:function() {
-        let newTab = Application.activeWindow.open(this.url("chrome://bench/content/test.html"));
+        let newTab = Application.activeWindow.open(this.url("chrome://bench/content/graph.html"));
         newTab.events.addListener("load", function() {
             newTab.focus();
         });

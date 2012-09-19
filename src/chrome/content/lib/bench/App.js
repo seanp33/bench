@@ -12,7 +12,7 @@ dojo.require('bench.ui.OverlayMediator');
 dojo.require('bench.ui.DemoMediator');
 
 dojo.declare('bench.App', bench.Loggable, {
-    _context:{},
+    _context:null,
     _entityService:null,
     _viewService:null,
     _igraphService:null,
@@ -21,10 +21,12 @@ dojo.declare('bench.App', bench.Loggable, {
     _browserController:null,
     _mediators:[],
 
-    constructor:function() {
+    constructor:function(context) {
+        this._context = context;
         this._initServices();
         this._initBrowserEnvironment();
         this._initMediators();
+        this._register(this);
     },
 
     run:function() {
@@ -35,6 +37,12 @@ dojo.declare('bench.App', bench.Loggable, {
         dojo.forEach(this._mediators, function(mediator, i) {
             if(mediator.handles(cmd)) mediator.perform(cmd) ;
         });
+    },
+
+    echo:function(msg){
+        msg += ' yes!';
+        this._logger.debug(msg);
+        return msg;
     },
 
     _initServices:function() {
@@ -57,7 +65,7 @@ dojo.declare('bench.App', bench.Loggable, {
     },
 
     _register:function(obj) {
-        this._context[obj.declaredClass] = obj;
+        this._context.set(obj.declaredClass, obj);
         return obj;
     }
 });
