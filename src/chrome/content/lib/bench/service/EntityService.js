@@ -18,8 +18,9 @@ dojo.declare('bench.service.EntityService', bench.Loggable, {
         this._store.close();
     },
 
-    mapGraph:function(nodeFunction, edgeFunction, completeFunction){
+    mapGraph:function(nodeFunction, edgeFunction, drawFunction){
         let self = this;
+        var nodes = [];
         let handler = new bench.storage.ResultHandler(
             function(aResultSet) {
                 for (let row = aResultSet.getNextRow();
@@ -29,14 +30,25 @@ dojo.declare('bench.service.EntityService', bench.Loggable, {
                     let src_port = row.getResultByName('src_port');
                     let dst = row.getResultByName('dst');
                     let dst_port = row.getResultByName('dst_port');
+
+                    nodes.push({src:src, dst:dst});
+
                     nodeFunction({id:src, label:src, x:Math.random(), y:Math.random()});
-                    nodeFunction({id:src, label:src, x:Math.random(), y:Math.random()});
-                    edgeFunction(src, src_port, dst, dst_port);
+                    nodeFunction({id:dst, label:dst, x:Math.random(), y:Math.random()});
                 }
+
+                drawFunction();
+
             },
 
             function(){
-                completeFunction();
+                for(var i=0;i<nodes.length;i++){
+                    var pair = nodes[i];
+                    self._logger.debug(pair.src + ' > ' + pair.dst);
+                    edgeFunction(pair.src, pair.dst);
+                }
+
+                drawFunction();
             }
         );
 

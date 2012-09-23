@@ -18,12 +18,11 @@ function onLoad() {
             }
         },
 
-        function(src, srcPort, dst, dstPort) {
+        function(src, dst) {
             try {
-                var id = src + ':' + srcPort + ' > ' + dst + ':' + dstPort;
-                sigInst.addEdge(src, dst);
+                sigInst.addEdge(src+'>'+dst, src, dst);
             } catch(e) {
-                console.error(e);
+                alert('edge failed: ' + src + ' > ' + dst);
             }
         },
 
@@ -34,19 +33,20 @@ function onLoad() {
 
     sigInst = sigma.init(document.getElementById('sigma-example'))
         .drawingProperties({
-            defaultLabelColor: '#fff',
+            defaultLabelColor: '#000',
             defaultLabelSize: 14,
-            defaultLabelBGColor: '#fff',
-            defaultLabelHoverColor: '#000',
+            defaultLabelBGColor: '#000',
+            defaultLabelHoverColor: 'red',
             labelThreshold: 6,
-            defaultEdgeType: 'curve'
+            defaultEdgeType: 'curve',
+            defaultEdgeColor: 'red'
         }).graphProperties({
             minNodeSize: 0.5,
             maxNodeSize: 5,
             minEdgeSize: 1,
             maxEdgeSize: 1
         }).mouseProperties({
-            maxRatio: 4
+            maxRatio: 20
         });
 
 }

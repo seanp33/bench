@@ -11,7 +11,7 @@
             -moz-border-radius: 4px;
             -webkit-border-radius: 4px;
             background: #fff;
-            height: 500px;
+            height: 800px;
         }
 
         .sigma-expand {
@@ -24,45 +24,9 @@
     </style>
     <script language="javascript" type="text/javascript" src="lib/sigma/sigma-min.js"></script>
     <script language="javascript" type="text/javascript" src="graph.js"></script>
-    <!--
-    <script language="javascript" type="text/javascript">
-        var sigInst = null;
-        function onLoad() {
-            sigInst = sigma.init(document.getElementById('sigma-example'))
-                    .drawingProperties({
-                        defaultLabelColor: '#fff',
-                        defaultLabelSize: 14,
-                        defaultLabelBGColor: '#fff',
-                        defaultLabelHoverColor: '#000',
-                        labelThreshold: 6,
-                        defaultEdgeType: 'curve'
-                    }).graphProperties({
-                        minNodeSize: 0.5,
-                        maxNodeSize: 5,
-                        minEdgeSize: 1,
-                        maxEdgeSize: 1
-                    }).mouseProperties({
-                        maxRatio: 4
-                    });
-        }
 
-        function addNode(node) {
-            sigInst.addNode(node.id, node);
-            sigInst.draw();
-        }
-
-        function addEdge(src, dst) {
-            sigInst.addEdge(src, dst);
-            sigInst.draw();
-        }
-
-    </script>
-    -->
 </head>
 <body onload="onLoad()">
-<input type="button" value="add node hello" onclick="addNode('hello')"/>
-<input type="button" value="add node world" onclick="addNode('world')"/>
-<input type="button" value="add edge" onclick="addNode('hellow', 'world')"/>
 
 <div class="span12 sigma-parent" id="sigma-example-parent">
     <div class="sigma-expand" id="sigma-example"></div>
