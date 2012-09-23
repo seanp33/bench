@@ -19,6 +19,7 @@ dojo.declare('bench.App', bench.Loggable, {
     _store:null,
     _owfContext:null,
     _browserController:null,
+    _util:null,
     _mediators:[],
 
     constructor:function(context) {
@@ -50,6 +51,7 @@ dojo.declare('bench.App', bench.Loggable, {
         this._viewService = this._register(new bench.service.ViewService(this._store));
         this._entityService = this._register(new bench.service.EntityService(this._store));
         this._igraphService = this._register(new bench.service.igraph.IGraphService());
+        this._util = this._register(bench.util.Util());
         this._logger.debug('successfully initialized <' + this._store.dbName + '>');
     },
 

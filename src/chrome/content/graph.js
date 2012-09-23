@@ -6,7 +6,11 @@ function onLoad() {
     var app = Context.get('bench.App');
 
     var entityService = Context.get('bench.service.EntityService');
+    var util = Context.get('bench.util.Util');
     if (entityService == undefined) throw new Error('bench.service.EntityService was not found within context');
+
+    var width = document.getElementById('sigma-example').style.width;
+    var height = document.getElementById('sigma-example').style.height;
 
     // create graph
     entityService.mapGraph(

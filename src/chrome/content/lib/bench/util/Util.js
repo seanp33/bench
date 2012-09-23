@@ -48,3 +48,7 @@ bench.util.Util.getExtPath = function() {
 bench.util.Util.getOs = function() {
    return Services.appinfo.OS;
 }
+
+bench.util.Util.randRange = function(min, max) {
+   return (Math.floor(Math.random() * (max - min + 1)) + min);
+}
